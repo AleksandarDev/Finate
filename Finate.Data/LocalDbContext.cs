@@ -12,7 +12,7 @@ namespace Finate.Data
     /// <summary>
     /// The Local database context.
     /// </summary>
-    public class LocalDbContext
+    public class LocalDbContext : ILocalDbContext
     {
         private static int databaseLocked;
         private const string DatabasePath = "Database.json";
@@ -52,7 +52,7 @@ namespace Finate.Data
         /// Loads the context.
         /// </summary>
         /// <returns>Returns the context.</returns>
-        public static async Task<LocalDbContext> LoadAsync()
+        public static async Task<ILocalDbContext> LoadAsync()
         {
             var databaseFile = await Package.Current.InstalledLocation.CreateFileAsync(
                 DatabasePath, CreationCollisionOption.OpenIfExists).AsTask();
