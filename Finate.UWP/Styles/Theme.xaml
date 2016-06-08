@@ -4,9 +4,11 @@
             <SolidColorBrush x:Key="HeaderBackgroundBrush">#DEDEDE</SolidColorBrush>
             <SolidColorBrush x:Key="HeaderBalanceForegroundBrush">#444444</SolidColorBrush>
             <SolidColorBrush x:Key="HeaderForegroundBrush">#666666</SolidColorBrush>
-            <SolidColorBrush x:Key="HeaderBorderBrush">#AAAAAA</SolidColorBrush>
-            <SolidColorBrush x:Key="IncomeButtonBackgroundBrush">LimeGreen</SolidColorBrush>
-            <SolidColorBrush x:Key="ExpenseButtonBackgroundBrush">OrangeRed</SolidColorBrush>
+            <SolidColorBrush x:Key="HeaderBorderBrush">#CECECE</SolidColorBrush>
+            <SolidColorBrush x:Key="IncomeButtonBorderBrush">#32CD32</SolidColorBrush>
+            <SolidColorBrush x:Key="IncomeButtonBackgroundBrush">#32CD32</SolidColorBrush>
+            <SolidColorBrush x:Key="ExpenseButtonBorderBrush">#FF4500</SolidColorBrush>
+            <SolidColorBrush x:Key="ExpenseButtonBackgroundBrush">#FF4500</SolidColorBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

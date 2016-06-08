@@ -18,38 +18,74 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
+            <!--  Page header  -->
             <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
                        Margin="12 8"
+                       FontWeight="Light"
                        Foreground="{ThemeResource HeaderForegroundBrush}"
                        Text="BALANCE" />
 
+            <!--  Bottom border  -->
             <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
                     BorderBrush="{ThemeResource HeaderBorderBrush}"
                     BorderThickness="0 0 0 1" />
 
+            <!--  Currency  -->
             <TextBlock Grid.Row="1"
-                       Margin="24 0 24 12"
+                       Grid.Column="0"
+                       Margin="8"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontWeight="ExtraLight"
+                       Foreground="{ThemeResource HeaderBalanceForegroundBrush}"
+                       Text="HRK" />
+
+            <!--  Account state  -->
+            <TextBlock Grid.Row="1"
+                       Grid.Column="2"
+                       Margin="0 0 0 12"
                        HorizontalAlignment="Center"
                        FontSize="32"
                        FontWeight="ExtraLight"
                        Foreground="{ThemeResource HeaderBalanceForegroundBrush}"
-                       Text="15,744.00 kn" />
+                       Text="15,744.00" />
         </Grid>
 
-        <Grid Grid.Row="2">
+        <!--  Overview  -->
+        <Grid Grid.Row="1" Margin="0 0 0 60" />
+
+        <!--  Actions  -->
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Grid.Height="60">
+            <!--  Quick actions  -->
+            <Grid Grid.Row="1" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="{ThemeResource IncomeButtonBackgroundBrush}">
+                <!--  Income button  -->
+                <Border Grid.Column="0"
+                        Background="{ThemeResource IncomeButtonBackgroundBrush}"
+                        BorderBrush="{ThemeResource IncomeButtonBorderBrush}"
+                        BorderThickness="0 1 0 0">
                     <Path Width="24"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
@@ -57,7 +93,12 @@
                           Fill="White"
                           Stretch="Uniform" />
                 </Border>
-                <Border Grid.Column="1" Background="{ThemeResource ExpenseButtonBackgroundBrush}">
+
+                <!--  Expense button  -->
+                <Border Grid.Column="1"
+                        Background="{ThemeResource ExpenseButtonBackgroundBrush}"
+                        BorderBrush="{ThemeResource ExpenseButtonBorderBrush}"
+                        BorderThickness="0 1 0 0">
                     <Path Width="24"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
@@ -67,6 +108,14 @@
                 </Border>
             </Grid>
 
+            <!-- Action content -->
+            <Grid Grid.Row="0" Padding="8" Background="{ThemeResource IncomeButtonBackgroundBrush}">
+                <StackPanel Orientation="Vertical">
+                <TextBox Margin="4" Text="115,255" FontSize="24" Foreground="White" BorderThickness="0" Background="Transparent" InputScope="Number" />
+                    <Border BorderThickness="1" BorderBrush="White" />
+                </StackPanel>
+            </Grid>
+            
         </Grid>
     </Grid>
 </Page>
