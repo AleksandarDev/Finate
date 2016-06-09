@@ -14,8 +14,28 @@ namespace Finate.Data
         /// </summary>
         List<Account> Accounts { get; set; }
 
+        /// <summary>
+        /// Gets or sets the categories database set.
+        /// </summary>
+        List<Category> Categories { get; set; }
 
         /// <summary>
+        /// Gets or sets the groups database set.
+        /// </summary>
+        List<Group> Groups { get; set; }
+
+        /// <summary>
+        /// Gets or sets the monthly budgets database set.
+        /// </summary>
+        List<MonthlyBudget> MonthlyBudgets { get; set; }
+
+        /// <summary>
+        /// Gets or sets the transactions database set.
+        /// </summary>
+        List<Transaction> Transactions { get; set; }
+
+
+            /// <summary>
         /// Saves the context.
         /// </summary>
         Task SaveContextAsync();

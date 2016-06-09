@@ -74,6 +74,22 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <!--  Action content  -->
+            <Grid Grid.Row="0"
+                  Background="{ThemeResource IncomeButtonBackgroundBrush}"
+                  Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <TextBox Margin="4"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="24"
+                             Foreground="White"
+                             InputScope="Number"
+                             Text="115,255" />
+                    <Border BorderBrush="White" BorderThickness="1" />
+                </StackPanel>
+            </Grid>
+
             <!--  Quick actions  -->
             <Grid Grid.Row="1" Height="60">
                 <Grid.ColumnDefinitions>
@@ -108,14 +124,6 @@
                 </Border>
             </Grid>
 
-            <!-- Action content -->
-            <Grid Grid.Row="0" Padding="8" Background="{ThemeResource IncomeButtonBackgroundBrush}">
-                <StackPanel Orientation="Vertical">
-                <TextBox Margin="4" Text="115,255" FontSize="24" Foreground="White" BorderThickness="0" Background="Transparent" InputScope="Number" />
-                    <Border BorderThickness="1" BorderBrush="White" />
-                </StackPanel>
-            </Grid>
-            
         </Grid>
     </Grid>
 </Page>

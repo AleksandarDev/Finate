@@ -23,6 +23,26 @@ namespace Finate.Data
         /// </summary>
         public List<Account> Accounts { get; set; }
 
+        /// <summary>
+        /// Gets or sets the categories database set.
+        /// </summary>
+        public List<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the groups database set.
+        /// </summary>
+        public List<Group> Groups { get; set; }
+
+        /// <summary>
+        /// Gets or sets the monthly budgets database set.
+        /// </summary>
+        public List<MonthlyBudget> MonthlyBudgets { get; set; }
+
+        /// <summary>
+        /// Gets or sets the transactions database set.
+        /// </summary>
+        public List<Transaction> Transactions { get; set; }
+
 
         /// <summary>
         /// Saves the context.
@@ -40,6 +60,10 @@ namespace Finate.Data
                 var databaseFile = await Package.Current.InstalledLocation.CreateFileAsync(
                     DatabasePath, CreationCollisionOption.OpenIfExists).AsTask();
                 await FileIO.WriteTextAsync(databaseFile, databaseContent).AsTask();
+            }
+            catch
+            {
+                // TODO: Log
             }
             finally
             {
