@@ -121,8 +121,34 @@
 
         <!--  Overview  -->
         <Grid Grid.Row="1" Background="{ThemeResource HeaderBackgroundBrush}">
-            <charts:SfChart Height="160"
-                            Margin="8 0 8 12"
+            <Grid.Resources>
+                <Storyboard x:Name="BoundEasingStoryboard">
+                    <DoubleAnimation Duration="0:0:2"
+                                     From="2.5"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                     To="1">
+                        <DoubleAnimation.EasingFunction>
+                            <BounceEase Bounces="4"
+                                        Bounciness="1.8"
+                                        EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation Duration="0:0:2"
+                                     From="2.5"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                     To="1">
+                        <DoubleAnimation.EasingFunction>
+                            <BounceEase Bounces="4"
+                                        Bounciness="1.8"
+                                        EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
+
+            <charts:SfChart x:Name="SpendingsChart"
+                            Height="160"
+                            Margin="12 0 12 12"
                             AreaBorderThickness="0"
                             BorderThickness="0">
                 <charts:SfChart.SecondaryAxis>
@@ -139,6 +165,21 @@
                                          Visibility="Collapsed" />
                 </charts:SfChart.PrimaryAxis>
                 <charts:SplineSeries BorderThickness="0"
+                                     EnableAnimation="True"
+                                     ItemsSource="{Binding PreviousWeeklyExpenses}"
+                                     Palette="Custom"
+                                     XBindingPath="Date"
+                                     YBindingPath="Amount">
+                    <charts:SplineSeries.ColorModel>
+                        <charts:ChartColorModel>
+                            <charts:ChartColorModel.CustomBrushes>
+                                <SolidColorBrush Color="#AAA" />
+                            </charts:ChartColorModel.CustomBrushes>
+                        </charts:ChartColorModel>
+                    </charts:SplineSeries.ColorModel>
+                </charts:SplineSeries>
+                <charts:SplineSeries BorderThickness="0"
+                                     EnableAnimation="True"
                                      ItemsSource="{Binding WeeklyExpenses}"
                                      Palette="Custom"
                                      XBindingPath="Date"
@@ -189,7 +230,284 @@
                     BorderThickness="0 0 0 1" />
         </Grid>
 
-        <Grid Grid.Row="2" Margin="0 0 0 60" />
+        <Grid Grid.Row="2" Margin="0 0 0 60">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Margin="0 16 0 16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Category icon  -->
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="16"
+                         Height="16"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="MediumOrchid" />
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="8"
+                         Height="8"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="White" />
+
+                <!--  Category name  -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="18"
+                           Text="Food" />
+
+                <!--  Transaction amount  -->
+                <StackPanel Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="4 0 12 0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="0 0 4 1"
+                               VerticalAlignment="Bottom"
+                               FontWeight="ExtraLight"
+                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
+                               Text="HRK" />
+                    <TextBlock Margin="0"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
+                               Text="240" />
+                </StackPanel>
+
+                <!--  Transaction name  -->
+                <Grid Grid.Row="2"
+                      Grid.Column="1"
+                      HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0 0 4 0"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               Foreground="#AAA"
+                               Text="Restaurant, Cinemas, Grocery"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#888"
+                               Text="11 June 2016" />
+                </Grid>
+
+                <!--  Transaction type  -->
+                <TextBlock Grid.Row="2"
+                           Grid.Column="2"
+                           Margin="12 0"
+                           HorizontalAlignment="Right"
+                           FontSize="12"
+                           FontWeight="ExtraLight"
+                           Foreground="#888"
+                           Text="Expense" />
+
+            </Grid>
+            <Grid Grid.Row="1" Margin="0 16 0 16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Category icon  -->
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="16"
+                         Height="16"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="YellowGreen" />
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="8"
+                         Height="8"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="White" />
+
+                <!--  Category name  -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="18"
+                           Text="Salary" />
+
+                <!--  Transaction amount  -->
+                <StackPanel Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="4 0 12 0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="0 0 4 1"
+                               VerticalAlignment="Bottom"
+                               FontWeight="ExtraLight"
+                               Foreground="{ThemeResource IncomeButtonBackgroundBrush}"
+                               Text="HRK" />
+                    <TextBlock Margin="0"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Foreground="{ThemeResource IncomeButtonBackgroundBrush}"
+                               Text="5400" />
+                </StackPanel>
+
+                <!--  Transaction name  -->
+                <Grid Grid.Row="2"
+                      Grid.Column="1"
+                      HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0 0 0 0"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               Foreground="#AAA"
+                               Text=""
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#888"
+                               Text="11 June 2016" />
+                </Grid>
+
+                <!--  Transaction type  -->
+                <TextBlock Grid.Row="2"
+                           Grid.Column="2"
+                           Margin="12 0"
+                           HorizontalAlignment="Right"
+                           FontSize="12"
+                           FontWeight="ExtraLight"
+                           Foreground="#888"
+                           Text="Income" />
+
+            </Grid>
+            <Grid Grid.Row="2" Margin="0 16 0 16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Category icon  -->
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="16"
+                         Height="16"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="DarkOrange" />
+                <Ellipse Grid.Row="1"
+                         Grid.RowSpan="2"
+                         Grid.Column="0"
+                         Width="8"
+                         Height="8"
+                         Margin="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="White" />
+
+                <!--  Category name  -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="18"
+                           Text="Shopping" />
+
+                <!--  Transaction amount  -->
+                <StackPanel Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="4 0 12 0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="0 0 4 1"
+                               VerticalAlignment="Bottom"
+                               FontWeight="ExtraLight"
+                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
+                               Text="HRK" />
+                    <TextBlock Margin="0"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
+                               Text="41" />
+                </StackPanel>
+
+                <!--  Transaction name  -->
+                <Grid Grid.Row="2"
+                      Grid.Column="1"
+                      HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0 0 4 0"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               Foreground="#AAA"
+                               Text="T-Shirt, Shoes and new smartphone"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#888"
+                               Text="11 June 2016" />
+                </Grid>
+
+                <!--  Transaction type  -->
+                <TextBlock Grid.Row="2"
+                           Grid.Column="2"
+                           Margin="12 0"
+                           HorizontalAlignment="Right"
+                           FontSize="12"
+                           FontWeight="ExtraLight"
+                           Foreground="#888"
+                           Text="Expense" />
+
+            </Grid>
+        </Grid>
 
         <!--  Actions  -->
         <Grid Grid.Row="2"
@@ -224,7 +542,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!--  Income button  -->
-                <Border Grid.Column="0"
+                <!--<Border Grid.Column="0"
                         Background="{ThemeResource IncomeButtonBackgroundBrush}"
                         BorderBrush="{ThemeResource IncomeButtonBorderBrush}"
                         BorderThickness="0 1 0 0">
@@ -234,10 +552,10 @@
                           Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
                           Fill="White"
                           Stretch="Uniform" />
-                </Border>
+                </Border>-->
 
                 <!--  Expense button  -->
-                <Border Grid.Column="1"
+                <!--<Border Grid.Column="1"
                         Background="{ThemeResource ExpenseButtonBackgroundBrush}"
                         BorderBrush="{ThemeResource ExpenseButtonBorderBrush}"
                         BorderThickness="0 1 0 0">
@@ -247,7 +565,7 @@
                           Data="M19,13H5V11H19V13Z"
                           Fill="White"
                           Stretch="Uniform" />
-                </Border>
+                </Border>-->
             </Grid>
 
         </Grid>

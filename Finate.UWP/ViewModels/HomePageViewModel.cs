@@ -40,13 +40,47 @@ namespace Finate.UWP.ViewModels
             },
             new Transaction()
             {
-                Amount = 140,
+                Amount = 20,
                 Date = new DateTime(2016, 6, 7)
+            }
+        };
+
+        public ObservableCollection<Transaction> PreviousWeeklyExpenses { get; } = new ObservableCollection<Transaction>()
+        {
+            new Transaction()
+            {
+                Amount = 120,
+                Date = new DateTime(2016, 6, 2)
+            },
+            new Transaction()
+            {
+                Amount = 70,
+                Date = new DateTime(2016, 6, 3)
+            },
+            new Transaction()
+            {
+                Amount = 80,
+                Date = new DateTime(2016, 6, 4)
+            },
+            new Transaction()
+            {
+                Amount = 100,
+                Date = new DateTime(2016, 6, 5)
             },
             new Transaction()
             {
                 Amount = 140,
+                Date = new DateTime(2016, 6, 6)
+            },
+            new Transaction()
+            {
+                Amount = 80,
                 Date = new DateTime(2016, 6, 7)
+            },
+            new Transaction()
+            {
+                Amount = 120,
+                Date = new DateTime(2016, 6, 8)
             }
         };
     }
