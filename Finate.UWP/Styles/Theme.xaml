@@ -1,14 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="HeaderBackgroundBrush">#DEDEDE</SolidColorBrush>
+            <Color x:Key="HighlightedBackgroundColor">#ecf0f1</Color>
+            <Color x:Key="IncomeGreenColor">#12CD12</Color>
+            <Color x:Key="ExpenseRedColor">#FF4500</Color>
+
+            <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="{ThemeResource HighlightedBackgroundColor}" />
             <SolidColorBrush x:Key="HeaderBalanceForegroundBrush">#444444</SolidColorBrush>
             <SolidColorBrush x:Key="HeaderForegroundBrush">#666666</SolidColorBrush>
             <SolidColorBrush x:Key="HeaderBorderBrush">#CECECE</SolidColorBrush>
-            <SolidColorBrush x:Key="IncomeButtonBorderBrush">#32CD32</SolidColorBrush>
-            <SolidColorBrush x:Key="IncomeButtonBackgroundBrush">#32CD32</SolidColorBrush>
-            <SolidColorBrush x:Key="ExpenseButtonBorderBrush">#FF4500</SolidColorBrush>
-            <SolidColorBrush x:Key="ExpenseButtonBackgroundBrush">#FF4500</SolidColorBrush>
+            <SolidColorBrush x:Key="IncomeButtonBorderBrush" Color="{ThemeResource IncomeGreenColor}" />
+            <SolidColorBrush x:Key="IncomeButtonBackgroundBrush" Color="{ThemeResource IncomeGreenColor}" />
+            <SolidColorBrush x:Key="ExpenseButtonBorderBrush" Color="{ThemeResource ExpenseRedColor}" />
+            <SolidColorBrush x:Key="ExpenseButtonBackgroundBrush" Color="{ThemeResource ExpenseRedColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

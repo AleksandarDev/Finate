@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
@@ -27,38 +29,119 @@ namespace Finate.UWP.Views
             this.InitializeComponent();
             this.DataContextChanged += this.HomePageDataContextChanged;
 
-            this.SpendingsChart.Loaded += (sender, args) =>
+            // Attach to events
+            this.AddTransactionButtonGrid.PointerPressed += this.AddTransactionButtonGridOnPointerPressed;
+            this.SpendingsChart.Loaded += this.SpendingsChartOnLoaded;
+        }
+
+        private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.SpendingsChartAddTodayIndicator();
+        }
+
+        private void SpendingsChartAddTodayIndicator()
+        {
+            // Retrieve last spline lines collection
+            var splines = FunctionalExtensions.ToList<ChartSeriesPanel>(FindChildren<ChartSeriesPanel>(this.SpendingsChart));
+            var currentSpendingSpline = splines.Last();
+
+            // Retrieve last path from the collection
+            var paths = currentSpendingSpline.Children.OfType<Path>();
+            var todaysSpendingPath = paths.LastOrDefault();
+
+            // Attach to path data property changed callback
+            todaysSpendingPath.RegisterPropertyChangedCallback(Path.DataProperty, (o, dp) =>
             {
-                var splines = FunctionalExtensions.ToList<ChartSeriesPanel>(FindChildren<ChartSeriesPanel>(this.SpendingsChart));
-                var currentSpendingSpline = splines.Last();
+                const int ellipseSize = 6;
+                const int ellipseRadius = ellipseSize / 2;
 
-                var paths = currentSpendingSpline.Children.OfType<Path>();
-                var todaysSpendingPath = paths.LastOrDefault();
+                // Retrieve new data as path geometry
+                var pathGeometry = todaysSpendingPath.Data as PathGeometry;
+                if (pathGeometry == null)
+                    return;
 
-                todaysSpendingPath.RegisterPropertyChangedCallback(Path.DataProperty, (o, dp) =>
+                // Retrieve last segment
+                if (!(pathGeometry.Figures?.Any() ?? false) ||
+                    !(pathGeometry.Figures[0].Segments?.Any() ?? false))
+                    return;
+                var segment = pathGeometry.Figures[0].Segments[0] as BezierSegment;
+                if (segment == null)
+                    return;
+
+                // Calculate position from last point of curve and subtract radius of ellipse
+                var positionX = segment.Point3.X - ellipseRadius;
+                var positionY = segment.Point3.Y - ellipseRadius;
+
+                // Instantiate new ellipse for indicating path end
+                var ellipse = new Ellipse
                 {
-                    var pathGeometry = todaysSpendingPath.Data as PathGeometry;
-                    var segment = pathGeometry.Figures[0].Segments[0] as BezierSegment;
-                    var positionX =  segment.Point3.X - 3;
-                    var positionY = segment.Point3.Y - 3;
-
-                    var ellipse = new Ellipse
+                    Fill = new SolidColorBrush(Colors.DimGray),
+                    Width = ellipseSize,
+                    Height = ellipseSize,
+                    RenderTransform = new ScaleTransform
                     {
-                        Fill = new SolidColorBrush(Colors.DimGray),
-                        Width = 6,
-                        Height = 6,
-                        RenderTransform = new ScaleTransform()
-                    };
-                    Canvas.SetTop(ellipse, positionY);
-                    Canvas.SetLeft(ellipse, positionX);
-                    ellipse.Name = "CurrentSpendingsEllipse";
+                        CenterX = ellipseRadius,
+                        CenterY = ellipseRadius
+                    }
+                };
 
-                    currentSpendingSpline.Children.Add(ellipse);
+                // Position ellipse on the chart
+                Canvas.SetTop(ellipse, positionY);
+                Canvas.SetLeft(ellipse, positionX);
 
-                    Storyboard.SetTarget(this.BoundEasingStoryboard, ellipse);
-                    this.BoundEasingStoryboard.Begin();
-                });
-            };
+                // Add ellipse to the chart
+                currentSpendingSpline.Children.Add(ellipse);
+
+                // Assing animation target and animate
+                Storyboard.SetTarget(this.BoundEasingStoryboard, ellipse);
+                this.BoundEasingStoryboard.Begin();
+            });
+        }
+
+        private void AddTransactionButtonGridOnPointerPressed(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
+        {
+            this.AnimateAddTransactionSlideOut();
+        }
+
+        private void AnimateAddTransactionSlideOut()
+        {
+            var buttonParent = this.AddTransactionButtonGrid.Parent as FrameworkElement;
+            if (buttonParent == null)
+                return;
+
+            this.SlideOutAddTransactionButtonTranslate.To = buttonParent.ActualHeight;
+            this.SlideOutAddTransactionButtonTranslationStoryboard.Begin();
+        }
+
+        private void AnimateAddTransactionSlideIn()
+        {
+            this.SlideInAddTransactionButtonTranslationStoryboard.Begin();
+        }
+
+        private void AnimateAddTransactionToCircle()
+        {
+            // Retrieve button content container's scale transform
+            var centerTransform = this.PartAddTransactionButtonCenter.RenderTransform as ScaleTransform;
+            if (centerTransform == null)
+                return;
+
+            // Set button content container's scale transform 
+            centerTransform.CenterX = this.PartAddTransactionButtonCenter.ActualWidth/2;
+
+            // Set button left and right circle's transition animation's parameters
+            this.CircleButtonTransitionLeftCircleAnimation.To = this.PartAddTransactionButtonCenter.ActualWidth/2;
+            this.CircleButtonTransitionRightCircleAnimation.To = -this.PartAddTransactionButtonCenter.ActualWidth / 2;
+
+            // Set button transition animation destination parameter
+            this.CircleButtonTransitionAnimation.To = this.ActualWidth / 2 - this.PartAddTransactionButtonLeftCircle.ActualWidth / 2 - this.AddTransactionButtonGrid.Margin.Bottom;
+
+            // Start the add transaction animation
+            this.CircleButtonTransitionStoryboard.Begin();
+        }
+
+        private void AnimateAddTransactionToFull()
+        {
+            this.FullButtonTransitionStoryboard.Begin();
         }
 
         private void HomePageDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)

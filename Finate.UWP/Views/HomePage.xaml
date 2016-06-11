@@ -123,24 +123,24 @@
         <Grid Grid.Row="1" Background="{ThemeResource HeaderBackgroundBrush}">
             <Grid.Resources>
                 <Storyboard x:Name="BoundEasingStoryboard">
-                    <DoubleAnimation Duration="0:0:2"
-                                     From="2.5"
+                    <DoubleAnimation Duration="0:0:1.5"
+                                     From="0"
                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
                                      To="1">
                         <DoubleAnimation.EasingFunction>
-                            <BounceEase Bounces="4"
-                                        Bounciness="1.8"
-                                        EasingMode="EaseOut" />
+                            <ElasticEase EasingMode="EaseOut"
+                                         Oscillations="3"
+                                         Springiness="1" />
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
-                    <DoubleAnimation Duration="0:0:2"
-                                     From="2.5"
+                    <DoubleAnimation Duration="0:0:1.5"
+                                     From="0"
                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                      To="1">
                         <DoubleAnimation.EasingFunction>
-                            <BounceEase Bounces="4"
-                                        Bounciness="1.8"
-                                        EasingMode="EaseOut" />
+                            <ElasticEase EasingMode="EaseOut"
+                                         Oscillations="3"
+                                         Springiness="1" />
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
                 </Storyboard>
@@ -263,8 +263,8 @@
                 <Ellipse Grid.Row="1"
                          Grid.RowSpan="2"
                          Grid.Column="0"
-                         Width="8"
-                         Height="8"
+                         Width="10"
+                         Height="10"
                          Margin="12"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
@@ -353,8 +353,8 @@
                 <Ellipse Grid.Row="1"
                          Grid.RowSpan="2"
                          Grid.Column="0"
-                         Width="8"
-                         Height="8"
+                         Width="10"
+                         Height="10"
                          Margin="12"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
@@ -443,8 +443,8 @@
                 <Ellipse Grid.Row="1"
                          Grid.RowSpan="2"
                          Grid.Column="0"
-                         Width="8"
-                         Height="8"
+                         Width="10"
+                         Height="10"
                          Margin="12"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
@@ -540,6 +540,177 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Storyboard x:Name="CircleButtonTransitionStoryboard">
+                        <DoubleAnimation Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonCenter"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                         To="0" />
+                        <DoubleAnimation Duration="0:0:0.2"
+                                         Storyboard.TargetName="PartAddTransactionButtonText"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="0" />
+                        <DoubleAnimation BeginTime="0:0:0.4"
+                                         Duration="0:0:0.1"
+                                         Storyboard.TargetName="PartAddTransactionButtonIcon"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="1" />
+                        <DoubleAnimation BeginTime="0:0:0.4"
+                                         Duration="0:0:0"
+                                         Storyboard.TargetName="PartAddTransactionButtonRightCircle"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="0" />
+                        <DoubleAnimation x:Name="CircleButtonTransitionLeftCircleAnimation"
+                                         Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonLeftCircle"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
+                        <DoubleAnimation x:Name="CircleButtonTransitionRightCircleAnimation"
+                                         Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonRightCircle"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
+                        <DoubleAnimation x:Name="CircleButtonTransitionAnimation"
+                                         Duration="0:0:0.6"
+                                         Storyboard.TargetName="AddTransactionButtonGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase EasingMode="EaseOut"
+                                             Oscillations="1"
+                                             Springiness="1" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                    <Storyboard x:Name="FullButtonTransitionStoryboard">
+                        <DoubleAnimation BeginTime="0:0:0.1"
+                                         Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonCenter"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                         To="1" />
+                        <DoubleAnimation BeginTime="0:0:0.4"
+                                         Duration="0:0:0.1"
+                                         From="0"
+                                         Storyboard.TargetName="PartAddTransactionButtonText"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="1" />
+                        <DoubleAnimation BeginTime="0:0:0.1"
+                                         Duration="0:0:0.1"
+                                         From="1"
+                                         Storyboard.TargetName="PartAddTransactionButtonIcon"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="0" />
+                        <DoubleAnimation BeginTime="0:0:0.1"
+                                         Duration="0:0:0"
+                                         From="0"
+                                         Storyboard.TargetName="PartAddTransactionButtonRightCircle"
+                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="1" />
+                        <DoubleAnimation BeginTime="0:0:0.1"
+                                         Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonLeftCircle"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                         To="0" />
+                        <DoubleAnimation BeginTime="0:0:0.1"
+                                         Duration="0:0:0.4"
+                                         Storyboard.TargetName="PartAddTransactionButtonRightCircle"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                         To="0" />
+                        <DoubleAnimation Duration="0:0:0.6"
+                                         Storyboard.TargetName="AddTransactionButtonGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase EasingMode="EaseOut"
+                                             Oscillations="1"
+                                             Springiness="1" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+
+                    <Storyboard x:Name="SlideOutAddTransactionButtonTranslationStoryboard">
+                        <DoubleAnimation x:Name="SlideOutAddTransactionButtonTranslate"
+                                         Duration="0:0:0.1"
+                                         Storyboard.TargetName="AddTransactionButtonGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                            <DoubleAnimation.EasingFunction>
+                                <QuadraticEase EasingMode="EaseIn" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+
+                    <Storyboard x:Name="SlideInAddTransactionButtonTranslationStoryboard">
+                        <DoubleAnimation Duration="0:0:0.5"
+                                         Storyboard.TargetName="AddTransactionButtonGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="0">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase EasingMode="EaseOut"
+                                             Oscillations="1"
+                                             Springiness="1" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+
+                <Grid x:Name="AddTransactionButtonGrid"
+                      Grid.ColumnSpan="2"
+                      MaxWidth="202"
+                      Margin="8"
+                      HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RenderTransform>
+                        <TranslateTransform />
+                    </Grid.RenderTransform>
+                    <Ellipse x:Name="PartAddTransactionButtonLeftCircle"
+                             Grid.Column="0"
+                             Width="42"
+                             Height="42"
+                             Margin="0 0 -21 0"
+                             Fill="{ThemeResource ExpenseButtonBackgroundBrush}">
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform />
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    <Path x:Name="PartAddTransactionButtonIcon"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="3"
+                          Width="16"
+                          Height="16"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                          Fill="White"
+                          Opacity="0"
+                          Stretch="Uniform" />
+                    <Border x:Name="PartAddTransactionButtonCenter"
+                            Grid.Column="1"
+                            Height="42"
+                            Background="{ThemeResource ExpenseButtonBackgroundBrush}">
+                        <Border.RenderTransform>
+                            <ScaleTransform />
+                        </Border.RenderTransform>
+                        <TextBlock x:Name="PartAddTransactionButtonText"
+                                   Margin="20 0"
+                                   VerticalAlignment="Center"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Opacity="1"
+                                   Text="ADD TRANSACTION" />
+                    </Border>
+                    <Ellipse x:Name="PartAddTransactionButtonRightCircle"
+                             Grid.Column="2"
+                             Width="42"
+                             Height="42"
+                             Margin="-21 0 0 0"
+                             Fill="{ThemeResource ExpenseButtonBackgroundBrush}"
+                             Opacity="1">
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform />
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                </Grid>
 
                 <!--  Income button  -->
                 <!--<Border Grid.Column="0"
