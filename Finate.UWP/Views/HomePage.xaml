@@ -164,7 +164,8 @@
                                          ShowTrackBallInfo="False"
                                          Visibility="Collapsed" />
                 </charts:SfChart.PrimaryAxis>
-                <charts:SplineSeries BorderThickness="0"
+                <charts:SplineSeries AnimationDuration="0:0:1"
+                                     BorderThickness="0"
                                      EnableAnimation="True"
                                      ItemsSource="{Binding PreviousWeeklyExpenses}"
                                      Palette="Custom"
@@ -178,7 +179,8 @@
                         </charts:ChartColorModel>
                     </charts:SplineSeries.ColorModel>
                 </charts:SplineSeries>
-                <charts:SplineSeries BorderThickness="0"
+                <charts:SplineSeries AnimationDuration="0:0:1"
+                                     BorderThickness="0"
                                      EnableAnimation="True"
                                      ItemsSource="{Binding WeeklyExpenses}"
                                      Palette="Custom"
@@ -535,7 +537,7 @@
             </Grid>-->
 
             <!--  Quick actions  -->
-            <Grid Grid.Row="1" Height="60">
+            <Grid Grid.Row="1" Height="84">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -649,10 +651,11 @@
                     </Storyboard>
                 </Grid.Resources>
 
+                <!--  Add transaction button  -->
                 <Grid x:Name="AddTransactionButtonGrid"
                       Grid.ColumnSpan="2"
-                      MaxWidth="202"
-                      Margin="8"
+                      MaxWidth="214"
+                      Margin="14"
                       HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -662,30 +665,36 @@
                     <Grid.RenderTransform>
                         <TranslateTransform />
                     </Grid.RenderTransform>
+
+                    <!--  Button left part  -->
                     <Ellipse x:Name="PartAddTransactionButtonLeftCircle"
                              Grid.Column="0"
-                             Width="42"
-                             Height="42"
-                             Margin="0 0 -21 0"
+                             Width="54"
+                             Height="54"
+                             Margin="0 0 -27 0"
                              Fill="{ThemeResource ExpenseButtonBackgroundBrush}">
                         <Ellipse.RenderTransform>
                             <TranslateTransform />
                         </Ellipse.RenderTransform>
                     </Ellipse>
+
+                    <!--  Circle button icon  -->
                     <Path x:Name="PartAddTransactionButtonIcon"
                           Grid.Column="0"
                           Grid.ColumnSpan="3"
-                          Width="16"
-                          Height="16"
+                          Width="20"
+                          Height="20"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
                           Fill="White"
                           Opacity="0"
                           Stretch="Uniform" />
+
+                    <!--  Button content  -->
                     <Border x:Name="PartAddTransactionButtonCenter"
                             Grid.Column="1"
-                            Height="42"
+                            Height="54"
                             Background="{ThemeResource ExpenseButtonBackgroundBrush}">
                         <Border.RenderTransform>
                             <ScaleTransform />
@@ -699,11 +708,13 @@
                                    Opacity="1"
                                    Text="ADD TRANSACTION" />
                     </Border>
+
+                    <!--  Button right part  -->
                     <Ellipse x:Name="PartAddTransactionButtonRightCircle"
                              Grid.Column="2"
-                             Width="42"
-                             Height="42"
-                             Margin="-21 0 0 0"
+                             Width="54"
+                             Height="54"
+                             Margin="-27 0 0 0"
                              Fill="{ThemeResource ExpenseButtonBackgroundBrush}"
                              Opacity="1">
                         <Ellipse.RenderTransform>
@@ -711,32 +722,6 @@
                         </Ellipse.RenderTransform>
                     </Ellipse>
                 </Grid>
-
-                <!--  Income button  -->
-                <!--<Border Grid.Column="0"
-                        Background="{ThemeResource IncomeButtonBackgroundBrush}"
-                        BorderBrush="{ThemeResource IncomeButtonBorderBrush}"
-                        BorderThickness="0 1 0 0">
-                    <Path Width="24"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-                          Fill="White"
-                          Stretch="Uniform" />
-                </Border>-->
-
-                <!--  Expense button  -->
-                <!--<Border Grid.Column="1"
-                        Background="{ThemeResource ExpenseButtonBackgroundBrush}"
-                        BorderBrush="{ThemeResource ExpenseButtonBorderBrush}"
-                        BorderThickness="0 1 0 0">
-                    <Path Width="24"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          Data="M19,13H5V11H19V13Z"
-                          Fill="White"
-                          Stretch="Uniform" />
-                </Border>-->
             </Grid>
 
         </Grid>

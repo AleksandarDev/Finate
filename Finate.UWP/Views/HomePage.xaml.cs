@@ -37,6 +37,8 @@ namespace Finate.UWP.Views
         private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             this.SpendingsChartAddTodayIndicator();
+
+            this.AnimateAddTransactionToCircle();
         }
 
         private void SpendingsChartAddTodayIndicator()
