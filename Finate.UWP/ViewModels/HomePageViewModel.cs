@@ -11,6 +11,22 @@ namespace Finate.UWP.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
+        public ObservableCollection<Category> Categories { get; } = new ObservableCollection<Category>()
+        {
+            new Category
+            {
+                Name = "Food"
+            },
+            new Category
+            {
+                Name = "Gas"
+            },
+            new Category
+            {
+                Name = "Shopping"
+            }
+        };
+
         public ObservableCollection<Transaction> WeeklyExpenses { get; } = new ObservableCollection<Transaction>()
         {
             new Transaction()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Windows.UI;
 
 namespace Finate.Models
 {
@@ -17,6 +18,11 @@ namespace Finate.Models
         /// Gets or sets the category name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category color.
+        /// </summary>
+        public Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the category group identifier.
