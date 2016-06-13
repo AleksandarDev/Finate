@@ -110,6 +110,9 @@
     <Compile Include="Controls\QuickTransactionView.xaml.cs">
       <DependentUpon>QuickTransactionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TransactionDetailsCompact.xaml.cs">
+      <DependentUpon>TransactionDetailsCompact.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageTokens.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\QuickTransactionViewModel.cs" />
+    <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -150,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\QuickTransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TransactionDetailsCompact.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

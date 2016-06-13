@@ -34,6 +34,24 @@ namespace Finate.UWP.ViewModels
             set { this.SetProperty(ref this.quickTransaction, value); }
         }
 
+        public ObservableCollection<TransactionViewModel> TodaysTransactions { get; } = 
+            new ObservableCollection<TransactionViewModel>
+        {
+            new TransactionViewModel
+            {
+                Name = "Test",
+                Category = new CategoryViewModel
+                {
+                    Name = "Food",
+                    Color = new SolidColorBrush(Colors.Crimson)
+                },
+                Amount = 125,
+                Date = DateTime.Now,
+                Type = "Income",
+                TypeColor = new SolidColorBrush(Colors.LightSeaGreen)
+            }
+        };
+
         public ObservableCollection<CategoryViewModel> Categories { get; } = new ObservableCollection<CategoryViewModel>()
         {
             new CategoryViewModel

@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Finate.UWP.Controls.TransactionDetailsCompact"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Finate.UWP.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <Grid Margin="0 16 0 16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Category icon  -->
+        <Ellipse Grid.Row="1"
+                 Grid.RowSpan="2"
+                 Grid.Column="0"
+                 Fill="{Binding Category.Color}"
+                 Style="{StaticResource CategoryEllipseOuter}" />
+        <Ellipse Grid.Row="1"
+                 Grid.RowSpan="2"
+                 Grid.Column="0"
+                 Fill="White"
+                 Style="{StaticResource CategoryEllipseInner}" />
+
+        <!--  Category name  -->
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   FontSize="18"
+                   Text="{Binding Category.Name}" />
+
+        <!--  Transaction amount  -->
+        <StackPanel Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="4 0 12 0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <TextBlock Margin="0 0 4 1"
+                       VerticalAlignment="Bottom"
+                       FontWeight="ExtraLight"
+                       Foreground="{Binding TypeColor}"
+                       Text="HRK" />
+            <TextBlock Margin="0"
+                       VerticalAlignment="Bottom"
+                       FontSize="18"
+                       Foreground="{Binding TypeColor}"
+                       Text="{Binding Amount}" />
+        </StackPanel>
+
+        <!--  Transaction name  -->
+        <Grid Grid.Row="2"
+              Grid.Column="1"
+              HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="0 0 4 0"
+                       HorizontalAlignment="Left"
+                       FontSize="12"
+                       Foreground="#AAA"
+                       Text="{Binding Name}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Grid.Column="1"
+                       HorizontalAlignment="Left"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Foreground="#888"
+                       Text="{Binding Date}" />
+        </Grid>
+
+        <!--  Transaction type expense  -->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="2"
+                   Margin="12 0"
+                   HorizontalAlignment="Right"
+                   FontSize="12"
+                   FontWeight="ExtraLight"
+                   Foreground="#888"
+                   Text="{Binding Type}" />
+
+    </Grid>
+</UserControl>

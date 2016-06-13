@@ -6,6 +6,7 @@
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                             xmlns:mvvm="using:Prism.Windows.Mvvm"
+                            xmlns:viewModels="using:Finate.UWP.ViewModels"
                             xmlns:xp="using:XP"
                             mvvm:ViewModelLocator.AutoWireViewModel="True"
                             mc:Ignorable="d">
@@ -234,6 +235,14 @@
                     BorderThickness="0 0 0 1" />
         </Grid>
 
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding TodaysTransactions}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:TransactionViewModel">
+                    <controls:TransactionDetailsCompact />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
         <Grid Grid.Row="2" Margin="0 0 0 60">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -241,268 +250,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid Margin="0 16 0 16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
 
-                <!--  Category icon  -->
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Fill="MediumOrchid"
-                         Style="{StaticResource CategoryEllipseOuter}" />
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Fill="White"
-                         Style="{StaticResource CategoryEllipseInner}" />
-
-                <!--  Category name  -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           FontSize="18"
-                           Text="Food" />
-
-                <!--  Transaction amount  -->
-                <StackPanel Grid.Row="1"
-                            Grid.Column="2"
-                            Margin="4 0 12 0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                    <TextBlock Margin="0 0 4 1"
-                               VerticalAlignment="Bottom"
-                               FontWeight="ExtraLight"
-                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
-                               Text="HRK" />
-                    <TextBlock Margin="0"
-                               VerticalAlignment="Bottom"
-                               FontSize="18"
-                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
-                               Text="240" />
-                </StackPanel>
-
-                <!--  Transaction name  -->
-                <Grid Grid.Row="2"
-                      Grid.Column="1"
-                      HorizontalAlignment="Left">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="0 0 4 0"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               Foreground="#AAA"
-                               Text="Restaurant, Cinemas, Grocery"
-                               TextTrimming="CharacterEllipsis" />
-                    <TextBlock Grid.Column="1"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Foreground="#888"
-                               Text="11 June 2016" />
-                </Grid>
-
-                <!--  Transaction type  -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="2"
-                           Margin="12 0"
-                           HorizontalAlignment="Right"
-                           FontSize="12"
-                           FontWeight="ExtraLight"
-                           Foreground="#888"
-                           Text="Expense" />
-
-            </Grid>
-            <Grid Grid.Row="1" Margin="0 16 0 16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <!--  Category icon  -->
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Width="16"
-                         Height="16"
-                         Margin="12"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Fill="YellowGreen" />
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Width="10"
-                         Height="10"
-                         Margin="12"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Fill="White" />
-
-                <!--  Category name  -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           FontSize="18"
-                           Text="Salary" />
-
-                <!--  Transaction amount  -->
-                <StackPanel Grid.Row="1"
-                            Grid.Column="2"
-                            Margin="4 0 12 0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                    <TextBlock Margin="0 0 4 1"
-                               VerticalAlignment="Bottom"
-                               FontWeight="ExtraLight"
-                               Foreground="{ThemeResource IncomeButtonBackgroundBrush}"
-                               Text="HRK" />
-                    <TextBlock Margin="0"
-                               VerticalAlignment="Bottom"
-                               FontSize="18"
-                               Foreground="{ThemeResource IncomeButtonBackgroundBrush}"
-                               Text="5400" />
-                </StackPanel>
-
-                <!--  Transaction name  -->
-                <Grid Grid.Row="2"
-                      Grid.Column="1"
-                      HorizontalAlignment="Left">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="0 0 0 0"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               Foreground="#AAA"
-                               Text=""
-                               TextTrimming="CharacterEllipsis" />
-                    <TextBlock Grid.Column="1"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Foreground="#888"
-                               Text="11 June 2016" />
-                </Grid>
-
-                <!--  Transaction type  -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="2"
-                           Margin="12 0"
-                           HorizontalAlignment="Right"
-                           FontSize="12"
-                           FontWeight="ExtraLight"
-                           Foreground="#888"
-                           Text="Income" />
-
-            </Grid>
-            <Grid Grid.Row="2" Margin="0 16 0 16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <!--  Category icon  -->
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Width="16"
-                         Height="16"
-                         Margin="12"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Fill="DarkOrange" />
-                <Ellipse Grid.Row="1"
-                         Grid.RowSpan="2"
-                         Grid.Column="0"
-                         Width="10"
-                         Height="10"
-                         Margin="12"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Fill="White" />
-
-                <!--  Category name  -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           FontSize="18"
-                           Text="Shopping" />
-
-                <!--  Transaction amount  -->
-                <StackPanel Grid.Row="1"
-                            Grid.Column="2"
-                            Margin="4 0 12 0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                    <TextBlock Margin="0 0 4 1"
-                               VerticalAlignment="Bottom"
-                               FontWeight="ExtraLight"
-                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
-                               Text="HRK" />
-                    <TextBlock Margin="0"
-                               VerticalAlignment="Bottom"
-                               FontSize="18"
-                               Foreground="{ThemeResource ExpenseButtonBackgroundBrush}"
-                               Text="41" />
-                </StackPanel>
-
-                <!--  Transaction name  -->
-                <Grid Grid.Row="2"
-                      Grid.Column="1"
-                      HorizontalAlignment="Left">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="0 0 4 0"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               Foreground="#AAA"
-                               Text="T-Shirt, Shoes and new smartphone"
-                               TextTrimming="CharacterEllipsis" />
-                    <TextBlock Grid.Column="1"
-                               HorizontalAlignment="Left"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Foreground="#888"
-                               Text="11 June 2016" />
-                </Grid>
-
-                <!--  Transaction type  -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="2"
-                           Margin="12 0"
-                           HorizontalAlignment="Right"
-                           FontSize="12"
-                           FontWeight="ExtraLight"
-                           Foreground="#888"
-                           Text="Expense" />
-
-            </Grid>
         </Grid>
 
         <!--  Actions  -->
