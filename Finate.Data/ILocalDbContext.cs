@@ -10,6 +10,11 @@ namespace Finate.Data
     public interface ILocalDbContext
     {
         /// <summary>
+        /// Gets or sets the value that detemines whether this database was seeded already.
+        /// </summary>
+        bool IsSeeded { get; set; }
+
+        /// <summary>
         /// Gets or sets the accounts database set.
         /// </summary>
         List<Account> Accounts { get; set; }

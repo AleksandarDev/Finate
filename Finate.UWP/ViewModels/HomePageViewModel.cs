@@ -7,69 +7,94 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using Finate.Data;
 using Finate.Models;
+using Finate.UWP.Annotations;
 using Prism.Commands;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
+using Syncfusion.Data.Extensions;
 
 namespace Finate.UWP.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
-        private QuickTransactionViewModel quickTransaction = new QuickTransactionViewModel();
+        private readonly ITransactionsRepository transactionsRepository;
+        private readonly ILocalDbContext context;
+        private QuickTransactionViewModel quickTransaction;
+
+        public event EventHandler OnQuickTransactionProcessed;
 
 
-        public HomePageViewModel()
+        public HomePageViewModel(
+            [NotNull] ITransactionsRepository transactionsRepository,
+            [NotNull] ILocalDbContext context)
         {
+            if (transactionsRepository == null) throw new ArgumentNullException(nameof(transactionsRepository));
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            this.transactionsRepository = transactionsRepository;
+            this.context = context;
+
+            // Populate collections
+            this.context.Categories.ForEach(c => this.Categories.Add(new CategoryViewModel(c)));
+            this.context.Transactions.Where(t => t.Date.Date == DateTime.Now.Date).ForEach(t => this.TodaysTransactions.Add(new TransactionViewModel(t)));
+
+            this.CleatQuickTransaction();
         }
 
-        public void QuickTransactionConfirmedCommandExecute()
+        private void CleatQuickTransaction()
         {
-            
+            this.QuickTransaction = new QuickTransactionViewModel {Category = this.Categories.FirstOrDefault()};
         }
 
+        /// <summary>
+        /// Handles the quick transaction confirmed command execution.
+        /// </summary>
+        public async void QuickTransactionConfirmedCommandExecute()
+        {
+            // Instantiate and fill new transaction model
+            var transaction = new Transaction
+            {
+                Amount = double.Parse(this.quickTransaction.Amount),
+                Date = DateTime.Now,
+                CategoryId = this.quickTransaction.Category.Id,
+                Name = this.quickTransaction.Name
+            };
+
+            // Add new transaction to the repository
+            await this.transactionsRepository.AddAsync(transaction);
+
+            // Add transaction to the todays transaction collection
+            var transactionViewModel = new TransactionViewModel(transaction);
+            this.TodaysTransactions.Add(transactionViewModel);
+
+            // Invoke event
+            this.OnQuickTransactionProcessed?.Invoke(this, null);
+
+            // Clear the quick transaction view model
+            this.CleatQuickTransaction();
+        }
+
+        /// <summary>
+        /// Gets or sets the quick transaction view model.
+        /// </summary>
         public QuickTransactionViewModel QuickTransaction
         {
             get { return this.quickTransaction; }
             set { this.SetProperty(ref this.quickTransaction, value); }
         }
 
-        public ObservableCollection<TransactionViewModel> TodaysTransactions { get; } = 
-            new ObservableCollection<TransactionViewModel>
-        {
-            new TransactionViewModel
-            {
-                Name = "Test",
-                Category = new CategoryViewModel
-                {
-                    Name = "Food",
-                    Color = new SolidColorBrush(Colors.Crimson)
-                },
-                Amount = 125,
-                Date = DateTime.Now,
-                Type = "Income",
-                TypeColor = new SolidColorBrush(Colors.LightSeaGreen)
-            }
-        };
+        /// <summary>
+        /// Gets or sets the todays transactions collection.
+        /// </summary>
+        public ObservableCollection<TransactionViewModel> TodaysTransactions { get; } =
+            new ObservableCollection<TransactionViewModel>();
 
-        public ObservableCollection<CategoryViewModel> Categories { get; } = new ObservableCollection<CategoryViewModel>()
-        {
-            new CategoryViewModel
-            {
-                Name = "Food",
-                Color = new SolidColorBrush(Colors.Crimson)
-            },
-            new CategoryViewModel
-            {
-                Name = "Gas",
-                Color = new SolidColorBrush(Colors.DarkSeaGreen)
-            },
-            new CategoryViewModel
-            {
-                Name = "Shopping",
-                Color = new SolidColorBrush(Colors.Purple)
-            }
-        };
+        /// <summary>
+        /// Gets or sets the available categories collection.
+        /// </summary>
+        public ObservableCollection<CategoryViewModel> Categories { get; } =
+            new ObservableCollection<CategoryViewModel>();
 
         public ObservableCollection<Transaction> WeeklyExpenses { get; } = new ObservableCollection<Transaction>()
         {

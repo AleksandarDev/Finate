@@ -33,6 +33,9 @@ namespace Finate.UWP.Views
     /// </summary>
     public sealed partial class HomePage : INotifyPropertyChanged
     {
+        private bool isAddTransactionCircle;
+
+
         public HomePage()
         {
             this.InitializeComponent();
@@ -43,8 +46,15 @@ namespace Finate.UWP.Views
             this.SpendingsChart.Loaded += this.SpendingsChartOnLoaded;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs navigationEventArgs)
+        {
+            this.QuickTransactionView.Visibility = Visibility.Collapsed;
+            base.OnNavigatedTo(navigationEventArgs);
+        }
+
         private void AnimateQuickTransactionViewSlideIn()
         {
+            this.QuickTransactionView.Visibility = Visibility.Visible;
             this.QuickTransactionViewSlideInAnimationTranslate.From = this.QuickTransactionView.ActualHeight;
             this.QuickTransactionViewSlideInAnimation.Begin();
         }
@@ -53,6 +63,8 @@ namespace Finate.UWP.Views
         {
             this.QuickTransactionViewSlideOutAnimationTranslate.To = this.QuickTransactionView.ActualHeight;
             this.QuickTransactionViewSlideOutAnimation.Begin();
+            this.QuickTransactionViewSlideOutAnimation.Completed += (sender, o) => 
+                this.QuickTransactionView.Visibility = Visibility.Collapsed;
         }
 
         private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -110,12 +122,22 @@ namespace Finate.UWP.Views
                 Canvas.SetTop(ellipse, positionY);
                 Canvas.SetLeft(ellipse, positionX);
 
+                // Remove previously added ellipses
+                var previouslyAdded = currentSpendingSpline.Children.OfType<Ellipse>().ToList();
+                var wasEllipseAnimated = previouslyAdded.Any();
+                foreach (var oldEllipse in previouslyAdded)
+                    currentSpendingSpline.Children.Remove(oldEllipse);
+
                 // Add ellipse to the chart
                 currentSpendingSpline.Children.Add(ellipse);
 
                 // Assing animation target and animate
-                Storyboard.SetTarget(this.BoundEasingStoryboard, ellipse);
-                this.BoundEasingStoryboard.Begin();
+                if (!wasEllipseAnimated)
+                {
+                    this.BoundEasingStoryboard.Stop();
+                    Storyboard.SetTarget(this.BoundEasingStoryboard, ellipse);
+                    this.BoundEasingStoryboard.Begin();
+                }
             });
         }
 
@@ -142,6 +164,10 @@ namespace Finate.UWP.Views
 
         private void AnimateAddTransactionToCircle()
         {
+            if (this.isAddTransactionCircle)
+                return;
+            this.isAddTransactionCircle = true;
+
             // Retrieve button content container's scale transform
             var centerTransform = this.PartAddTransactionButtonCenter.RenderTransform as ScaleTransform;
             if (centerTransform == null)
@@ -163,6 +189,8 @@ namespace Finate.UWP.Views
 
         private void AnimateAddTransactionToFull()
         {
+            this.isAddTransactionCircle = false;
+
             this.FullButtonTransitionStoryboard.Begin();
         }
 
@@ -171,7 +199,16 @@ namespace Finate.UWP.Views
             // Handle commands
             this.QuickTransactionView.Confirmed = new DelegateCommand(obj => this.ConcreteDataContext.QuickTransactionConfirmedCommandExecute());
 
+            // Attach to events
+            this.ConcreteDataContext.OnQuickTransactionProcessed += this.ConcreteDataContextOnOnQuickTransactionProcessed;
+
             this.OnPropertyChanged(nameof(ConcreteDataContext));
+        }
+
+        private void ConcreteDataContextOnOnQuickTransactionProcessed(object sender, EventArgs eventArgs)
+        {
+            this.AnimateQuickTransactionViewSlideOut();
+            this.AnimateAddTransactionSlideIn();
         }
 
         public HomePageViewModel ConcreteDataContext => this.DataContext as HomePageViewModel;
@@ -241,6 +278,17 @@ namespace Finate.UWP.Views
             var count = VisualTreeHelper.GetChildrenCount(parent);
             for (var index = 0; index < count; index++)
                 yield return VisualTreeHelper.GetChild(parent, index);
+        }
+
+        private void ScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        {
+            var viewer = sender as ScrollViewer;
+            if (viewer == null)
+                return;
+
+            if (e.NextView.VerticalOffset > 0)
+                this.AnimateAddTransactionToCircle();
+            else this.AnimateAddTransactionToFull();
         }
     }
 }

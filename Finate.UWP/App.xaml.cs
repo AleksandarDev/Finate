@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Finate.Data;
+using Finate.Models;
 using Microsoft.Practices.Unity;
 using Mindscape.Raygun4Net;
 using Prism.Unity.Windows;
@@ -32,21 +36,56 @@ namespace Finate.UWP
 
         protected override UIElement CreateShell(Frame rootFrame)
         {
-            var shell = Container.Resolve<AppShell>();
+            var shell = this.Container.Resolve<AppShell>();
             shell.SetContentFrame(rootFrame);
             return shell;
         }
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            this.Container.RegisterType<ITransactionsRepository, TransactionsRepository>(new PerResolveLifetimeManager());
+
             //Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             return base.OnInitializeAsync(args);
         }
 
-        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate(PageTokens.HomePage, null);
-            return Task.FromResult(true);
+            // Initialize database
+            var context = await LocalDbContext.LoadAsync();
+            //var context = new LocalDbContext();
+            if (!context.IsSeeded)
+                await this.SeedContextAsync(context);
+            this.Container.RegisterInstance<ILocalDbContext>(context);
+
+            this.NavigationService.Navigate(PageTokens.HomePage, null);
+            await Task.FromResult(true);
+        }
+
+        private async Task SeedContextAsync(ILocalDbContext context)
+        {
+            // Prepare groups
+            var shoppingCategory = new Group
+            {
+                Name = "Shopping",
+                Id = Guid.NewGuid().ToString()
+            };
+
+            context.Groups.Add(shoppingCategory);
+
+            // Prepare categories
+            var foodCategory = new Category
+            {
+                Color = Colors.Purple,
+                Name = "Food",
+                Id = Guid.NewGuid().ToString(),
+                GroupId = shoppingCategory.Id
+            };
+
+            context.Categories.Add(foodCategory);
+
+            // Save context changes
+            await context.SaveContextAsync();
         }
     }
 }

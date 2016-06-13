@@ -235,23 +235,35 @@
                     BorderThickness="0 0 0 1" />
         </Grid>
 
+        <!--  Transactions list  -->
         <ItemsControl Grid.Row="2" ItemsSource="{Binding TodaysTransactions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <ScrollViewer HorizontalScrollMode="Disabled"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalScrollMode="Enabled"
+                                  ViewChanging="ScrollViewerOnViewChanging">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemContainerTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition IsStaggeringEnabled="True" />
+                    <AddDeleteThemeTransition />
+                </TransitionCollection>
+            </ItemsControl.ItemContainerTransitions>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TransactionViewModel">
                     <controls:TransactionDetailsCompact />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <Grid Grid.Row="2" Margin="0 0 0 60">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-        </Grid>
 
         <!--  Actions  -->
         <Grid Grid.Row="2"
@@ -291,6 +303,7 @@
                 </Storyboard>
             </Grid.Resources>
 
+            <!--  Quick transaction content  -->
             <controls:QuickTransactionView x:Name="QuickTransactionView" Opacity="0">
                 <controls:QuickTransactionView.RenderTransform>
                     <TranslateTransform />
