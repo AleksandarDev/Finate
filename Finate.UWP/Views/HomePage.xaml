@@ -509,8 +509,45 @@
         <Grid Grid.Row="2"
               Grid.RowSpan="2"
               VerticalAlignment="Bottom">
+            <Grid.Resources>
+                <Storyboard x:Name="QuickTransactionViewSlideInAnimation">
+                    <DoubleAnimation Duration="0:0:0.2"
+                                     Storyboard.TargetName="QuickTransactionView"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="1" />
+                    <DoubleAnimation x:Name="QuickTransactionViewSlideInAnimationTranslate"
+                                     Duration="0:0:0.4"
+                                     Storyboard.TargetName="QuickTransactionView"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                     To="0">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+                <Storyboard x:Name="QuickTransactionViewSlideOutAnimation">
+                    <DoubleAnimation BeginTime="0:0:0.1"
+                                     Duration="0:0:0.2"
+                                     Storyboard.TargetName="QuickTransactionView"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0" />
+                    <DoubleAnimation x:Name="QuickTransactionViewSlideOutAnimationTranslate"
+                                     Duration="0:0:0.4"
+                                     From="0"
+                                     Storyboard.TargetName="QuickTransactionView"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseIn" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
 
-            <controls:QuickTransactionView />
+            <controls:QuickTransactionView x:Name="QuickTransactionView" Opacity="0">
+                <controls:QuickTransactionView.RenderTransform>
+                    <TranslateTransform />
+                </controls:QuickTransactionView.RenderTransform>
+            </controls:QuickTransactionView>
 
             <!--  Quick actions  -->
             <Grid Height="84" VerticalAlignment="Bottom">

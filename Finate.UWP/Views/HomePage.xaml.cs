@@ -22,6 +22,7 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Syncfusion.UI.Xaml.CellGrid.Helpers;
 using Syncfusion.UI.Xaml.Charts;
+using Syncfusion.UI.Xaml.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,54 +41,23 @@ namespace Finate.UWP.Views
             // Attach to events
             this.AddTransactionButtonGrid.PointerPressed += this.AddTransactionButtonGridOnPointerPressed;
             this.SpendingsChart.Loaded += this.SpendingsChartOnLoaded;
-            this.AttachInputPaneEvents();
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        private void AnimateQuickTransactionViewSlideIn()
         {
-            base.OnNavigatingFrom(e);
-
-            this.DetachInputPaneEvents();
+            this.QuickTransactionViewSlideInAnimationTranslate.From = this.QuickTransactionView.ActualHeight;
+            this.QuickTransactionViewSlideInAnimation.Begin();
         }
 
-        private void AttachInputPaneEvents()
+        private void AnimateQuickTransactionViewSlideOut()
         {
-            var currentViewsInputPane = InputPane.GetForCurrentView();
-            if (currentViewsInputPane != null)
-                currentViewsInputPane.Showing += this.CurrentViewsInputPaneOnShowing;
-        }
-
-        private void DetachInputPaneEvents()
-        {
-            var currentViewsInputPane = InputPane.GetForCurrentView();
-            if (currentViewsInputPane != null)
-                currentViewsInputPane.Showing -= this.CurrentViewsInputPaneOnShowing;
-        }
-
-        private async void CurrentViewsInputPaneOnShowing(InputPane sender, InputPaneVisibilityEventArgs eventArgs)
-        {
-            // If the size of this window is going to be too small, the app uses 
-            // the Showing event to begin some element removal animations.
-            if (eventArgs.OccludedRect.Top < 400)
-            {
-                StartElementRemovalAnimations();
-
-                // Don&#39;t use framework scroll- or visibility-related 
-                // animations that might conflict with the app&#39;s logic.
-                eventArgs.EnsuredFocusedElementInView = true;
-            }
-        }
-
-        private void StartElementRemovalAnimations()
-        {
-            
+            this.QuickTransactionViewSlideOutAnimationTranslate.To = this.QuickTransactionView.ActualHeight;
+            this.QuickTransactionViewSlideOutAnimation.Begin();
         }
 
         private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             this.SpendingsChartAddTodayIndicator();
-
-            this.AnimateAddTransactionToCircle();
         }
 
         private void SpendingsChartAddTodayIndicator()
@@ -151,6 +121,7 @@ namespace Finate.UWP.Views
 
         private void AddTransactionButtonGridOnPointerPressed(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
         {
+            this.AnimateQuickTransactionViewSlideIn();
             this.AnimateAddTransactionSlideOut();
         }
 
@@ -197,6 +168,9 @@ namespace Finate.UWP.Views
 
         private void HomePageDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
+            // Handle commands
+            this.QuickTransactionView.Confirmed = new DelegateCommand(obj => this.ConcreteDataContext.QuickTransactionConfirmedCommandExecute());
+
             this.OnPropertyChanged(nameof(ConcreteDataContext));
         }
 

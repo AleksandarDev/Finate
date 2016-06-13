@@ -1,13 +1,22 @@
 ﻿using System;
-using Windows.UI.Core;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Prism.Unity.Windows;
 
 namespace Finate.UWP.Controls
 {
     public sealed partial class QuickTransactionView
     {
+        public ICommand Confirmed
+        {
+            get { return (ICommand)GetValue(ConfirmedProperty); }
+            set { SetValue(ConfirmedProperty, value); }
+        }
+
+        public static readonly DependencyProperty ConfirmedProperty =
+            DependencyProperty.Register("ConfirmedProperty", typeof(ICommand), typeof(QuickTransactionView), new PropertyMetadata(null));
+        
+
         public QuickTransactionView()
         {
             this.InitializeComponent();
@@ -30,6 +39,11 @@ namespace Finate.UWP.Controls
 
             if (this.IncomeToggle != null)
                 this.IncomeToggle.IsChecked = !(this.ExpenseToggle.IsChecked ?? false);
+        }
+
+        private void ConfirmButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            this.Confirmed?.Execute(null);
         }
     }
 }

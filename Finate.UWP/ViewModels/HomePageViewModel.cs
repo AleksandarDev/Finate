@@ -4,26 +4,52 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 using Finate.Models;
+using Prism.Commands;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 
 namespace Finate.UWP.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
-        public ObservableCollection<Category> Categories { get; } = new ObservableCollection<Category>()
+        private QuickTransactionViewModel quickTransaction = new QuickTransactionViewModel();
+
+
+        public HomePageViewModel()
         {
-            new Category
+        }
+
+        public void QuickTransactionConfirmedCommandExecute()
+        {
+            
+        }
+
+        public QuickTransactionViewModel QuickTransaction
+        {
+            get { return this.quickTransaction; }
+            set { this.SetProperty(ref this.quickTransaction, value); }
+        }
+
+        public ObservableCollection<CategoryViewModel> Categories { get; } = new ObservableCollection<CategoryViewModel>()
+        {
+            new CategoryViewModel
             {
-                Name = "Food"
+                Name = "Food",
+                Color = new SolidColorBrush(Colors.Crimson)
             },
-            new Category
+            new CategoryViewModel
             {
-                Name = "Gas"
+                Name = "Gas",
+                Color = new SolidColorBrush(Colors.DarkSeaGreen)
             },
-            new Category
+            new CategoryViewModel
             {
-                Name = "Shopping"
+                Name = "Shopping",
+                Color = new SolidColorBrush(Colors.Purple)
             }
         };
 
