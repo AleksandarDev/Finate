@@ -164,6 +164,7 @@ namespace Finate.UWP.Views
 
         private void AnimateAddTransactionToCircle()
         {
+            // Avoid multiple animation calls
             if (this.isAddTransactionCircle)
                 return;
             this.isAddTransactionCircle = true;
@@ -189,6 +190,9 @@ namespace Finate.UWP.Views
 
         private void AnimateAddTransactionToFull()
         {
+            // Avoid multiple animation calls
+            if (!this.isAddTransactionCircle)
+                return;
             this.isAddTransactionCircle = false;
 
             this.FullButtonTransitionStoryboard.Begin();
