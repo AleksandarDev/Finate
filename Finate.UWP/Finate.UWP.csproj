@@ -107,6 +107,9 @@
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\QuickTransactionView.xaml.cs">
+      <DependentUpon>QuickTransactionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageTokens.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,6 +144,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AppShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\QuickTransactionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

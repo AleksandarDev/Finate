@@ -6,11 +6,14 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 using Finate.UWP.Annotations;
 using Finate.UWP.ViewModels;
@@ -37,6 +40,47 @@ namespace Finate.UWP.Views
             // Attach to events
             this.AddTransactionButtonGrid.PointerPressed += this.AddTransactionButtonGridOnPointerPressed;
             this.SpendingsChart.Loaded += this.SpendingsChartOnLoaded;
+            this.AttachInputPaneEvents();
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            this.DetachInputPaneEvents();
+        }
+
+        private void AttachInputPaneEvents()
+        {
+            var currentViewsInputPane = InputPane.GetForCurrentView();
+            if (currentViewsInputPane != null)
+                currentViewsInputPane.Showing += this.CurrentViewsInputPaneOnShowing;
+        }
+
+        private void DetachInputPaneEvents()
+        {
+            var currentViewsInputPane = InputPane.GetForCurrentView();
+            if (currentViewsInputPane != null)
+                currentViewsInputPane.Showing -= this.CurrentViewsInputPaneOnShowing;
+        }
+
+        private async void CurrentViewsInputPaneOnShowing(InputPane sender, InputPaneVisibilityEventArgs eventArgs)
+        {
+            // If the size of this window is going to be too small, the app uses 
+            // the Showing event to begin some element removal animations.
+            if (eventArgs.OccludedRect.Top < 400)
+            {
+                StartElementRemovalAnimations();
+
+                // Don&#39;t use framework scroll- or visibility-related 
+                // animations that might conflict with the app&#39;s logic.
+                eventArgs.EnsuredFocusedElementInView = true;
+            }
+        }
+
+        private void StartElementRemovalAnimations()
+        {
+            
         }
 
         private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -164,6 +208,20 @@ namespace Finate.UWP.Views
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static T FindParent<T>(FrameworkElement reference)
+            where T : FrameworkElement
+        {
+            var parent = reference;
+            while (parent != null)
+            {
+                parent = parent.Parent as FrameworkElement;
+                var parentTyped = parent as T;
+                if (parentTyped != null)
+                    return parentTyped;
+            }
+            return null;
         }
 
         /// <summary>
