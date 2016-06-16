@@ -10,7 +10,9 @@
                             xmlns:xp="using:XP"
                             mvvm:ViewModelLocator.AutoWireViewModel="True"
                             mc:Ignorable="d">
-    <mvvm:SessionStateAwarePage.Resources />
+    <mvvm:SessionStateAwarePage.Resources>
+        <charts:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </mvvm:SessionStateAwarePage.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -62,13 +64,6 @@
                        FontSize="32"
                        Foreground="{ThemeResource HeaderBalanceForegroundBrush}"
                        Text="15,744.00" />
-
-            <!--  Bottom border  -->
-            <!--<Border Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="4"
-                    BorderBrush="{ThemeResource HeaderBorderBrush}"
-                    BorderThickness="0 0 0 1" />-->
 
             <!--  Trend & Limit  -->
             <Grid Grid.Row="2"
@@ -235,11 +230,25 @@
                     BorderThickness="0 0 0 1" />
         </Grid>
 
+        <!--  No transactions  -->
+        <TextBlock Grid.Row="2"
+                   Margin="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="14"
+                   FontWeight="ExtraLight"
+                   Foreground="{ThemeResource HeaderForegroundBrush}"
+                   Text="You haven't added any transaction today."
+                   TextTrimming="None"
+                   TextWrapping="WrapWholeWords"
+                   Visibility="{Binding IsTodaysTransactionsEmpty,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
+
         <!--  Transactions list  -->
         <ItemsControl Grid.Row="2" ItemsSource="{Binding TodaysTransactions}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" />
+                    <StackPanel Orientation="Vertical" Padding="0 0 0 84" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.Template>

@@ -9,15 +9,13 @@ using Finate.Data;
 using Finate.Models;
 using Microsoft.Practices.Unity;
 using Mindscape.Raygun4Net;
-using Prism.Unity.Windows;
-using Prism.Windows.AppModel;
 
 namespace Finate.UWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : PrismUnityApplication
+    public sealed partial class App
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -52,11 +50,11 @@ namespace Finate.UWP
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             // Initialize database
-            var context = await LocalDbContext.LoadAsync();
-            //var context = new LocalDbContext();
+            //var context = await LocalDbContext.LoadAsync();
+            var context = (ILocalDbContext)new LocalDbContext();
             if (!context.IsSeeded)
                 await this.SeedContextAsync(context);
-            this.Container.RegisterInstance<ILocalDbContext>(context);
+            this.Container.RegisterInstance(context);
 
             this.NavigationService.Navigate(PageTokens.HomePage, null);
             await Task.FromResult(true);

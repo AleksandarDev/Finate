@@ -39,6 +39,11 @@ namespace Finate.UWP.ViewModels
             this.context.Categories.ForEach(c => this.Categories.Add(new CategoryViewModel(c)));
             this.context.Transactions.Where(t => t.Date.Date == DateTime.Now.Date).ForEach(t => this.TodaysTransactions.Add(new TransactionViewModel(t)));
 
+            // Attach to events
+            this.TodaysTransactions.CollectionChanged += (sender, args) =>
+                // ReSharper disable once ExplicitCallerInfoArgument
+                this.OnPropertyChanged(nameof(this.IsTodaysTransactionsEmpty));
+
             this.CleatQuickTransaction();
         }
 
@@ -66,7 +71,7 @@ namespace Finate.UWP.ViewModels
 
             // Add transaction to the todays transaction collection
             var transactionViewModel = new TransactionViewModel(transaction);
-            this.TodaysTransactions.Add(transactionViewModel);
+            this.TodaysTransactions.Insert(0, transactionViewModel);
 
             // Invoke event
             this.OnQuickTransactionProcessed?.Invoke(this, null);
@@ -95,6 +100,14 @@ namespace Finate.UWP.ViewModels
         /// </summary>
         public ObservableCollection<CategoryViewModel> Categories { get; } =
             new ObservableCollection<CategoryViewModel>();
+
+        /// <summary>
+        /// Gets the value that determines whether todays transactions collectio is empty.
+        /// </summary>
+        /// <value>
+        /// <c>True</c> if todays transactions collection is empty; <c>False</c> otherwise.
+        /// </value>
+        public bool IsTodaysTransactionsEmpty => !this.TodaysTransactions.Any();
 
         public ObservableCollection<Transaction> WeeklyExpenses { get; } = new ObservableCollection<Transaction>()
         {
