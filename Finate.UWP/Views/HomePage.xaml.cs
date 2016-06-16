@@ -83,7 +83,7 @@ namespace Finate.UWP.Views
             var todaysSpendingPath = paths.LastOrDefault();
 
             // Attach to path data property changed callback
-            todaysSpendingPath.RegisterPropertyChangedCallback(Path.DataProperty, (o, dp) =>
+            todaysSpendingPath?.RegisterPropertyChangedCallback(Path.DataProperty, (o, dp) =>
             {
                 const int ellipseSize = 6;
                 const int ellipseRadius = ellipseSize / 2;

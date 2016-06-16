@@ -26,7 +26,7 @@ namespace Finate.UWP.ViewModels
         {
             this.Id = transaction.Id;
             this.Name = transaction.Name;
-            this.Amount = Math.Abs(transaction.Amount);
+            this.Amount = transaction.Amount;
             this.Date = transaction.Date;
             this.Type = transaction.Amount < 0 ? "Expense" : "Income";
 

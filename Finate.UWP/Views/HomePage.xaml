@@ -167,7 +167,7 @@
                                      EnableAnimation="True"
                                      ItemsSource="{Binding PreviousWeeklyExpenses}"
                                      Palette="Custom"
-                                     XBindingPath="Date"
+                                     XBindingPath="Index"
                                      YBindingPath="Amount">
                     <charts:SplineSeries.ColorModel>
                         <charts:ChartColorModel>
@@ -182,7 +182,8 @@
                                      EnableAnimation="True"
                                      ItemsSource="{Binding WeeklyExpenses}"
                                      Palette="Custom"
-                                     XBindingPath="Date"
+                                     ListenPropertyChange="True"
+                                     XBindingPath="Index"
                                      YBindingPath="Amount">
                     <charts:SplineSeries.ColorModel>
                         <charts:ChartColorModel>
@@ -238,7 +239,7 @@
                    FontSize="14"
                    FontWeight="ExtraLight"
                    Foreground="{ThemeResource HeaderForegroundBrush}"
-                   Text="You haven't added any transaction today."
+                   Text="You haven't made any transactions today"
                    TextTrimming="None"
                    TextWrapping="WrapWholeWords"
                    Visibility="{Binding IsTodaysTransactionsEmpty,

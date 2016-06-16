@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
 using Finate.Data;
 using Finate.Models;
 using Finate.UWP.Annotations;
-using Prism.Commands;
+using Finate.UWP.Extensions;
 using Prism.Windows.Mvvm;
-using Prism.Windows.Navigation;
 using Syncfusion.Data.Extensions;
+using Syncfusion.UI.Xaml.Schedule;
 
 namespace Finate.UWP.ViewModels
 {
@@ -35,21 +29,109 @@ namespace Finate.UWP.ViewModels
             this.transactionsRepository = transactionsRepository;
             this.context = context;
 
-            // Populate collections
+            // Populate categories
             this.context.Categories.ForEach(c => this.Categories.Add(new CategoryViewModel(c)));
-            this.context.Transactions.Where(t => t.Date.Date == DateTime.Now.Date).ForEach(t => this.TodaysTransactions.Add(new TransactionViewModel(t)));
 
-            // Attach to events
+            // Populate todays transactions collection
+            this.context.Transactions
+                .Where(t => t.Date.Date == DateTime.Now.Date)
+                .ForEach(t => this.TodaysTransactions.Add(new TransactionViewModel(t)));
+
+            // Populate graph collections
+            this.PopulateGraphCollections();
+
+            // Handle empty transactions collection property changed notification
             this.TodaysTransactions.CollectionChanged += (sender, args) =>
-                // ReSharper disable once ExplicitCallerInfoArgument
-                this.OnPropertyChanged(nameof(this.IsTodaysTransactionsEmpty));
+                this.OnPropertyChanged(() => this.IsTodaysTransactionsEmpty);
 
-            this.CleatQuickTransaction();
+            // Initial clear of quick transaction view model
+            this.ClearQuickTransaction();
         }
 
-        private void CleatQuickTransaction()
+
+        /// <summary>
+        /// Populates the graph collections.
+        /// </summary>
+        private void PopulateGraphCollections()
         {
-            this.QuickTransaction = new QuickTransactionViewModel {Category = this.Categories.FirstOrDefault()};
+            // Calculate starting date
+            var currentWeekStartDate = DateTime.Now.Date.StartOfWeek(DayOfWeek.Monday);
+            var previousWeekStartDate = (currentWeekStartDate - TimeSpan.FromDays(1)).StartOfWeek(DayOfWeek.Monday);
+
+            // Retrieve all transactions for previous two weeks
+            var transactions = this.context.Transactions
+                .Where(t => t.Date.Date >= previousWeekStartDate.Date)
+                .ToList();
+
+            // Populate previous week transactions
+            for (var currentDay = previousWeekStartDate; currentDay < currentWeekStartDate; currentDay += TimeSpan.FromDays(1))
+            {
+                // Retrieve transactions for given day of the previous week
+                var dayTransactions = transactions
+                    .Where(t => t.Date.Date == currentDay)
+                    .ToList();
+
+                // Add empty transaction to the collection if on the day no transactions are available
+                if (!dayTransactions.Any())
+                {
+                    this.PreviousWeeklyExpenses.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = 0
+                        }));
+                }
+                else
+                {
+                    this.PreviousWeeklyExpenses.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = dayTransactions.Sum(t => t.Amount)
+                        }));
+                }
+            }
+
+            // Populate current week transactions
+            for (var currentDay = currentWeekStartDate; currentDay <= DateTime.Now.Date; currentDay += TimeSpan.FromDays(1))
+            {
+                // Retrieve transactions for given day of the current week
+                var dayTransactions = transactions
+                    .Where(t => t.Date.Date == currentDay)
+                    .ToList();
+
+                // Add empty transaction to the collection if on the day no transactions are available
+                if (!dayTransactions.Any())
+                {
+                    this.WeeklyExpenses.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = 0
+                        }));
+                }
+                else
+                {
+                    this.WeeklyExpenses.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = dayTransactions.Sum(t => t.Amount)
+                        }));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears the quick transaction view model.
+        /// This is called after user has added new transaction and view needs to be reset.
+        /// </summary>
+        private void ClearQuickTransaction()
+        {
+            this.QuickTransaction = new QuickTransactionViewModel
+            {
+                Category = this.Categories.FirstOrDefault()
+            };
         }
 
         /// <summary>
@@ -60,7 +142,7 @@ namespace Finate.UWP.ViewModels
             // Instantiate and fill new transaction model
             var transaction = new Transaction
             {
-                Amount = double.Parse(this.quickTransaction.Amount),
+                Amount = double.Parse(this.quickTransaction.Amount) * (this.quickTransaction.IsExpense ? -1 : 1),
                 Date = DateTime.Now,
                 CategoryId = this.quickTransaction.Category.Id,
                 Name = this.quickTransaction.Name
@@ -73,11 +155,15 @@ namespace Finate.UWP.ViewModels
             var transactionViewModel = new TransactionViewModel(transaction);
             this.TodaysTransactions.Insert(0, transactionViewModel);
 
+            // Add transaction to the current weekly expense graph collection
+            this.WeeklyExpenses.First(t => t.Index == transaction.Date.GetDayOfWeekIndex(true)).Amount +=
+                transaction.Amount;
+
             // Invoke event
             this.OnQuickTransactionProcessed?.Invoke(this, null);
 
             // Clear the quick transaction view model
-            this.CleatQuickTransaction();
+            this.ClearQuickTransaction();
         }
 
         /// <summary>
@@ -88,6 +174,18 @@ namespace Finate.UWP.ViewModels
             get { return this.quickTransaction; }
             set { this.SetProperty(ref this.quickTransaction, value); }
         }
+
+        /// <summary>
+        /// Gets the current weekly transactions collection.
+        /// </summary>
+        public ObservableCollection<TransactionGraphViewModel> WeeklyExpenses { get; } = 
+            new ObservableCollection<TransactionGraphViewModel>();
+
+        /// <summary>
+        /// Gets the previous weekly transactions collection.
+        /// </summary>
+        public ObservableCollection<TransactionGraphViewModel> PreviousWeeklyExpenses { get; } =
+            new ObservableCollection<TransactionGraphViewModel>();
 
         /// <summary>
         /// Gets or sets the todays transactions collection.
@@ -108,78 +206,5 @@ namespace Finate.UWP.ViewModels
         /// <c>True</c> if todays transactions collection is empty; <c>False</c> otherwise.
         /// </value>
         public bool IsTodaysTransactionsEmpty => !this.TodaysTransactions.Any();
-
-        public ObservableCollection<Transaction> WeeklyExpenses { get; } = new ObservableCollection<Transaction>()
-        {
-            new Transaction()
-            {
-                Amount = 80,
-                Date = new DateTime(2016, 6, 2)
-            },
-            new Transaction()
-            {
-                Amount = 180,
-                Date = new DateTime(2016, 6, 3)
-            },
-            new Transaction()
-            {
-                Amount = 120,
-                Date = new DateTime(2016, 6, 4)
-            },
-            new Transaction()
-            {
-                Amount = 90,
-                Date = new DateTime(2016, 6, 5)
-            },
-            new Transaction()
-            {
-                Amount = 70,
-                Date = new DateTime(2016, 6, 6)
-            },
-            new Transaction()
-            {
-                Amount = 20,
-                Date = new DateTime(2016, 6, 7)
-            }
-        };
-
-        public ObservableCollection<Transaction> PreviousWeeklyExpenses { get; } = new ObservableCollection<Transaction>()
-        {
-            new Transaction()
-            {
-                Amount = 120,
-                Date = new DateTime(2016, 6, 2)
-            },
-            new Transaction()
-            {
-                Amount = 70,
-                Date = new DateTime(2016, 6, 3)
-            },
-            new Transaction()
-            {
-                Amount = 80,
-                Date = new DateTime(2016, 6, 4)
-            },
-            new Transaction()
-            {
-                Amount = 100,
-                Date = new DateTime(2016, 6, 5)
-            },
-            new Transaction()
-            {
-                Amount = 140,
-                Date = new DateTime(2016, 6, 6)
-            },
-            new Transaction()
-            {
-                Amount = 80,
-                Date = new DateTime(2016, 6, 7)
-            },
-            new Transaction()
-            {
-                Amount = 120,
-                Date = new DateTime(2016, 6, 8)
-            }
-        };
     }
 }
