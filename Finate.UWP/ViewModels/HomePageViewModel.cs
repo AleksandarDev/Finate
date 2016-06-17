@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Finate.Data;
@@ -50,8 +51,65 @@ namespace Finate.UWP.ViewModels
 
 
         /// <summary>
+        /// Populates the destination graph transaction collection with 
+        /// transaction view models that represent users transaction 
+        /// for specified date range.
+        /// </summary>
+        /// <param name="source">The user transactions collection.</param>
+        /// <param name="startDate">Start of the date range to populate destination collection.</param>
+        /// <param name="endDate">End of the date range to populate destination collection.</param>
+        /// <param name="destination">The destination transaction graph view model collection.</param>
+        /// <remarks>
+        /// This will populate destination collection with transaction graph view models
+        /// that contain date and amount equal to sum of all users transaction for that date.
+        /// If user did not make any transactions on that date, amount will be zero.
+        /// </remarks>
+        private static void PopulateGraphCollection(
+            IReadOnlyCollection<Transaction> source, 
+            DateTime startDate, 
+            DateTime endDate, 
+            ICollection<TransactionGraphViewModel> destination)
+        {
+            // Populate previous week transactions
+            for (var currentDay = startDate; currentDay < endDate; currentDay += TimeSpan.FromDays(1))
+            {
+                // Retrieve transactions for given day of the previous week
+                var dayTransactions = source
+                    .Where(t => t.Date.Date == currentDay)
+                    .ToList();
+
+                // Add empty transaction to the collection if on the day no transactions are available
+                if (!dayTransactions.Any())
+                {
+                    // Add empty transaction
+                    destination.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = 0
+                        }));
+                }
+                else
+                {
+                    // Add transaction whith sum of all transaction amounts
+                    destination.Add(new TransactionGraphViewModel(
+                        new Transaction
+                        {
+                            Date = currentDay,
+                            Amount = dayTransactions.Sum(t => t.Amount)
+                        }));
+                }
+            }
+        }
+
+        /// <summary>
         /// Populates the graph collections.
         /// </summary>
+        /// <remarks>
+        /// Two graph collections will be populated. 
+        /// The previous week collection is populated for all seven days,
+        /// current week is populated with transaction up and including current date.
+        /// </remarks>
         private void PopulateGraphCollections()
         {
             // Calculate starting date
@@ -64,62 +122,18 @@ namespace Finate.UWP.ViewModels
                 .ToList();
 
             // Populate previous week transactions
-            for (var currentDay = previousWeekStartDate; currentDay < currentWeekStartDate; currentDay += TimeSpan.FromDays(1))
-            {
-                // Retrieve transactions for given day of the previous week
-                var dayTransactions = transactions
-                    .Where(t => t.Date.Date == currentDay)
-                    .ToList();
-
-                // Add empty transaction to the collection if on the day no transactions are available
-                if (!dayTransactions.Any())
-                {
-                    this.PreviousWeeklyExpenses.Add(new TransactionGraphViewModel(
-                        new Transaction
-                        {
-                            Date = currentDay,
-                            Amount = 0
-                        }));
-                }
-                else
-                {
-                    this.PreviousWeeklyExpenses.Add(new TransactionGraphViewModel(
-                        new Transaction
-                        {
-                            Date = currentDay,
-                            Amount = dayTransactions.Sum(t => t.Amount)
-                        }));
-                }
-            }
+            PopulateGraphCollection(
+                transactions, 
+                previousWeekStartDate, 
+                currentWeekStartDate,
+                this.PreviousWeeklyExpenses);
 
             // Populate current week transactions
-            for (var currentDay = currentWeekStartDate; currentDay <= DateTime.Now.Date; currentDay += TimeSpan.FromDays(1))
-            {
-                // Retrieve transactions for given day of the current week
-                var dayTransactions = transactions
-                    .Where(t => t.Date.Date == currentDay)
-                    .ToList();
-
-                // Add empty transaction to the collection if on the day no transactions are available
-                if (!dayTransactions.Any())
-                {
-                    this.WeeklyExpenses.Add(new TransactionGraphViewModel(
-                        new Transaction
-                        {
-                            Date = currentDay,
-                            Amount = 0
-                        }));
-                }
-                else
-                {
-                    this.WeeklyExpenses.Add(new TransactionGraphViewModel(
-                        new Transaction
-                        {
-                            Date = currentDay,
-                            Amount = dayTransactions.Sum(t => t.Amount)
-                        }));
-                }
-            }
+            PopulateGraphCollection(
+                transactions,
+                currentWeekStartDate,
+                DateTime.Now.Date,
+                this.WeeklyExpenses);
         }
 
         /// <summary>

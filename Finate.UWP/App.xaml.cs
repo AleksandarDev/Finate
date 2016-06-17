@@ -50,8 +50,8 @@ namespace Finate.UWP
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             // Initialize database
-            //var context = await LocalDbContext.LoadAsync();
-            var context = (ILocalDbContext)new LocalDbContext();
+            var context = await LocalDbContext.LoadAsync();
+            //var context = (ILocalDbContext)new LocalDbContext();
             if (!context.IsSeeded)
                 await this.SeedContextAsync(context);
             this.Container.RegisterInstance(context);
