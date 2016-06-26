@@ -1,0 +1,53 @@
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Windows.UI.Xaml;
+using Finate.UWP.Annotations;
+using Finate.UWP.ViewModels;
+
+namespace Finate.UWP.Views
+{
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class CategoriesPage : INotifyPropertyChanged
+    {
+        public CategoriesPage()
+        {
+            // Initialize the view
+            this.InitializeComponent();
+
+            // Attach to data context changed event of this page
+            this.DataContextChanged += this.CategoriesPageViewModelChanged;
+        }
+        
+        /// <summary>
+        /// Handles the page data context changed event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void CategoriesPageViewModelChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            this.OnPropertyChanged(nameof(ConcreteDataContext));
+        }
+
+        /// <summary>
+        /// Gets the concrete data context for this page.
+        /// </summary>
+        public CategoriesPageViewModel ConcreteDataContext => this.DataContext as CategoriesPageViewModel;
+
+        /// <summary>
+        /// Called when propert changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changes event for specified property name.
+        /// </summary>
+        /// <param name="propertyName">The name of changed property.</param>
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

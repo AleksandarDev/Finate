@@ -442,24 +442,6 @@
                                             UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
-                <!--  Name input  -->
-                <Grid Grid.Row="2"
-                      Grid.Column="1"
-                      Grid.ColumnSpan="4"
-                      Margin="0 8"
-                      HorizontalAlignment="Stretch">
-                    <TextBox Margin="0"
-                             Background="Transparent"
-                             BorderThickness="1"
-                             FontSize="18"
-                             Foreground="Black"
-                             InputScope="Text"
-                             PlaceholderText="Transaction description"
-                             Text="{Binding QuickTransaction.Name,
-                                            Mode=TwoWay,
-                                            UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
-
                 <!--  Category selection  -->
                 <ComboBox Grid.Row="3"
                           Grid.Column="1"

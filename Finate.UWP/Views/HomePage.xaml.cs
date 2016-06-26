@@ -20,6 +20,7 @@ using Finate.UWP.ViewModels;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Prism.Windows.Mvvm;
 using Syncfusion.UI.Xaml.CellGrid.Helpers;
 using Syncfusion.UI.Xaml.Charts;
 using Syncfusion.UI.Xaml.Utils;
@@ -215,10 +216,20 @@ namespace Finate.UWP.Views
             this.AnimateAddTransactionSlideIn();
         }
 
+        /// <summary>
+        /// Gets the concrete data context for this page.
+        /// </summary>
         public HomePageViewModel ConcreteDataContext => this.DataContext as HomePageViewModel;
 
+        /// <summary>
+        /// Called when propert changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raises the property changes event for specified property name.
+        /// </summary>
+        /// <param name="propertyName">The name of changed property.</param>
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

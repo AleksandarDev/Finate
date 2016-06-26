@@ -3,6 +3,6 @@
     public static class PageTokens
     {
         public const string HomePage = "Home";
-        public const string SecondPage = "Second";
+        public const string CategoriesPage = "Categories";
     }
 }

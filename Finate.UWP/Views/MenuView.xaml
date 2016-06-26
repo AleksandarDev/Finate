@@ -2,11 +2,29 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="using:Finate.UWP.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="using:Finate.UWP.ViewModels"
+             xmlns:mvvm="using:Prism.Windows.Mvvm"
              d:DesignHeight="300"
              d:DesignWidth="400"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="MenuItemTemplate" x:DataType="viewModels:MenuItemViewModel">
+            <Grid>
+                <Button Command="{x:Bind Command}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock AutomationProperties.AccessibilityView="Raw" Text="{x:Bind DisplayName}" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
 
-    <Grid />
+    <Grid>
+        <ItemsControl Margin="0 48 0 0"
+                      IsTabStop="False"
+                      ItemTemplate="{StaticResource MenuItemTemplate}"
+                      ItemsSource="{x:Bind Path=ConcreteDataContext.MenuItems}" />
+    </Grid>
 </UserControl>

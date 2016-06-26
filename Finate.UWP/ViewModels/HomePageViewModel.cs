@@ -12,6 +12,9 @@ using Syncfusion.UI.Xaml.Schedule;
 
 namespace Finate.UWP.ViewModels
 {
+    /// <summary>
+    /// The <see cref="Views.HomePage"/> view model.
+    /// </summary>
     public class HomePageViewModel : ViewModelBase
     {
         private readonly ITransactionsRepository transactionsRepository;
