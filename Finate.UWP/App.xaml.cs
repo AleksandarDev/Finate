@@ -23,7 +23,7 @@ namespace Finate.UWP
         /// </summary>
         public App()
         {
-            RaygunClient.Attach("YOUR_APP_API_KEY");
+            RaygunClient.Attach("UNQ3Nr8h83xioevBJXOM5A==");
 
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |

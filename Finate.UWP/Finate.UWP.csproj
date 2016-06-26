@@ -117,15 +117,15 @@
     <Compile Include="PageTokens.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\BudgetPageViewModel.cs" />
-    <Compile Include="ViewModels\CategoriesPageViewModel.cs" />
-    <Compile Include="ViewModels\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\HomePageViewModel.cs" />
-    <Compile Include="ViewModels\MenuItemViewModel.cs" />
-    <Compile Include="ViewModels\MenuViewModel.cs" />
-    <Compile Include="ViewModels\QuickTransactionViewModel.cs" />
-    <Compile Include="ViewModels\TransactionGraphViewModel.cs" />
-    <Compile Include="ViewModels\TransactionViewModel.cs" />
+    <Compile Include="ViewModels\Pages\BudgetPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\CategoriesPageViewModel.cs" />
+    <Compile Include="ViewModels\Models\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\Pages\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\Models\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Controls\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Controls\QuickTransactionViewModel.cs" />
+    <Compile Include="ViewModels\Models\TransactionGraphViewModel.cs" />
+    <Compile Include="ViewModels\Models\TransactionViewModel.cs" />
     <Compile Include="Views\BudgetPage.xaml.cs">
       <DependentUpon>BudgetPage.xaml</DependentUpon>
     </Compile>
