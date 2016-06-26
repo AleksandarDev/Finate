@@ -9,23 +9,22 @@ namespace Finate.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CategoriesPage : INotifyPropertyChanged
+    public sealed partial class BudgetPage : INotifyPropertyChanged
     {
-        public CategoriesPage()
+        public BudgetPage()
         {
-            // Initialize the view
             this.InitializeComponent();
 
             // Attach to data context changed event of this page
-            this.DataContextChanged += this.CategoriesPageViewModelChanged;
+            this.DataContextChanged += this.BudgetPageViewModelChanged;
         }
-        
+
         /// <summary>
         /// Handles the page data context changed event.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The event arguments.</param>
-        private void CategoriesPageViewModelChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void BudgetPageViewModelChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             this.OnPropertyChanged(nameof(ConcreteDataContext));
         }
@@ -33,7 +32,7 @@ namespace Finate.UWP.Views
         /// <summary>
         /// Gets the concrete data context for this page.
         /// </summary>
-        public CategoriesPageViewModel ConcreteDataContext => this.DataContext as CategoriesPageViewModel;
+        public BudgetPageViewModel ConcreteDataContext => this.DataContext as BudgetPageViewModel;
 
         /// <summary>
         /// Called when propert changes.

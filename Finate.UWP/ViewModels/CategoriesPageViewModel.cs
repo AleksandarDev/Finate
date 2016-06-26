@@ -15,6 +15,7 @@ namespace Finate.UWP.ViewModels
     {
         private readonly ILocalDbContext context;
 
+
         public CategoriesPageViewModel([NotNull] ILocalDbContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -31,6 +32,7 @@ namespace Finate.UWP.ViewModels
         private void RefreshPageData()
         {
             // Populate the categories collection from context
+            this.CategoriesCollection.Clear();
             foreach (var category in this.context.Categories)
                 this.CategoriesCollection.Add(new CategoryViewModel(category));
         }

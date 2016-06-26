@@ -4,5 +4,6 @@
     {
         public const string HomePage = "Home";
         public const string CategoriesPage = "Categories";
+        public const string BudgetPage = "Budget";
     }
 }
