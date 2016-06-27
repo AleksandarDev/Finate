@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Finate.Data;
 using Finate.UWP.Annotations;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
+using DelegateCommand = Prism.Commands.DelegateCommand;
 
 namespace Finate.UWP.ViewModels
 {
@@ -14,14 +16,29 @@ namespace Finate.UWP.ViewModels
     public class CategoriesPageViewModel : ViewModelBase
     {
         private readonly ILocalDbContext context;
+        private readonly INavigationService navigationService;
 
 
-        public CategoriesPageViewModel([NotNull] ILocalDbContext context)
+        public CategoriesPageViewModel(
+            [NotNull] ILocalDbContext context, 
+            [NotNull] INavigationService navigationService)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
+            if (navigationService == null) throw new ArgumentNullException(nameof(navigationService));
             this.context = context;
+            this.navigationService = navigationService;
+
+            this.CreateCategoryCommand = new DelegateCommand(this.CreateCategoryCommandExecute);
         }
 
+
+        /// <summary>
+        /// Handles the create category command execution.
+        /// </summary>
+        private void CreateCategoryCommandExecute()
+        {
+            this.navigationService.Navigate(PageTokens.CategoryCreatePage, null);
+        }
 
         public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
@@ -42,5 +59,10 @@ namespace Finate.UWP.ViewModels
         /// </summary>
         public ObservableCollection<CategoryViewModel> CategoriesCollection { get; } = 
             new ObservableCollection<CategoryViewModel>();
+
+        /// <summary>
+        /// Gets the create categoy command.
+        /// </summary>
+        public ICommand CreateCategoryCommand { get; }
     }
 }

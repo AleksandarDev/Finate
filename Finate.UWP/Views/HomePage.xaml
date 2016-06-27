@@ -181,8 +181,8 @@
                                      BorderThickness="0"
                                      EnableAnimation="True"
                                      ItemsSource="{Binding WeeklyExpenses}"
-                                     Palette="Custom"
                                      ListenPropertyChange="True"
+                                     Palette="Custom"
                                      XBindingPath="Index"
                                      YBindingPath="Amount">
                     <charts:SplineSeries.ColorModel>

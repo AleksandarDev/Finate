@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\Pages\BudgetPageViewModel.cs" />
     <Compile Include="ViewModels\Pages\CategoriesPageViewModel.cs" />
     <Compile Include="ViewModels\Models\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\Pages\CategoryCreatePageViewModel.cs" />
     <Compile Include="ViewModels\Pages\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Models\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Controls\MenuViewModel.cs" />
@@ -131,6 +132,9 @@
     </Compile>
     <Compile Include="Views\CategoriesPage.xaml.cs">
       <DependentUpon>CategoriesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CategoryCreatePage.xaml.cs">
+      <DependentUpon>CategoryCreatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -187,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CategoriesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CategoryCreatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

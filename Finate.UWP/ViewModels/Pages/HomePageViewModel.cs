@@ -173,8 +173,9 @@ namespace Finate.UWP.ViewModels
             this.TodaysTransactions.Insert(0, transactionViewModel);
 
             // Add transaction to the current weekly expense graph collection
-            this.WeeklyExpenses.First(t => t.Index == transaction.Date.GetDayOfWeekIndex(true)).Amount +=
-                transaction.Amount;
+            this.WeeklyExpenses
+                .First(t => t.Index == transaction.Date.GetDayOfWeekIndex(true))
+                .Amount += transaction.Amount;
 
             // Invoke event
             this.OnQuickTransactionProcessed?.Invoke(this, null);
