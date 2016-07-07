@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
-using Finate.UWP.Annotations;
+using Finate.UWP.Properties;
 using Finate.UWP.ViewModels;
 
 namespace Finate.UWP.Views

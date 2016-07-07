@@ -95,6 +95,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="project.json" />
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
@@ -113,7 +114,23 @@
     <Compile Include="Controls\TransactionDetailsCompact.xaml.cs">
       <DependentUpon>TransactionDetailsCompact.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ILocalDbContext.cs" />
+    <Compile Include="DAL\ITransactionsRepository.cs" />
+    <Compile Include="DAL\LocalDbContext.cs" />
+    <Compile Include="DAL\LocalDbContextExtensions.cs" />
+    <Compile Include="DAL\TransactionsRepository.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Migrations\20160707220642_Initial.cs" />
+    <Compile Include="Migrations\20160707220642_Initial.designer.cs">
+      <DependentUpon>20160707220642_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\LocalDbContextModelSnapshot.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\MonthlyBudget.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="PageTokens.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,16 +223,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Finate.Data\Finate.Data.csproj">
-      <Project>{1c3289d1-2e0f-4913-bd54-314998537e20}</Project>
-      <Name>Finate.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Finate.Models\Finate.Models.csproj">
-      <Project>{9F282EDF-A371-457E-88F9-F5207B474094}</Project>
-      <Name>Finate.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Syncfusion Controls for UWP XAML, Version=14.1.0.46">

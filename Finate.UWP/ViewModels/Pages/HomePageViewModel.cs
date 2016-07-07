@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Finate.Data;
-using Finate.Models;
-using Finate.UWP.Annotations;
+using Finate.UWP.DAL;
 using Finate.UWP.Extensions;
+using Finate.UWP.Models;
+using Finate.UWP.Properties;
 using Prism.Windows.Mvvm;
 using Syncfusion.Data.Extensions;
 using Syncfusion.UI.Xaml.Schedule;
@@ -99,7 +99,7 @@ namespace Finate.UWP.ViewModels
                         new Transaction
                         {
                             Date = currentDay,
-                            Amount = dayTransactions.Sum(t => t.Amount)
+                            Amount = dayTransactions.Sum(t => Math.Abs(t.Amount))
                         }));
                 }
             }
@@ -127,7 +127,7 @@ namespace Finate.UWP.ViewModels
             // Populate previous week transactions
             PopulateGraphCollection(
                 transactions, 
-                previousWeekStartDate, 
+                previousWeekStartDate,
                 currentWeekStartDate,
                 this.PreviousWeeklyExpenses);
 
@@ -135,7 +135,7 @@ namespace Finate.UWP.ViewModels
             PopulateGraphCollection(
                 transactions,
                 currentWeekStartDate,
-                DateTime.Now.Date,
+                DateTime.Now.Date + TimeSpan.FromDays(1),
                 this.WeeklyExpenses);
         }
 
@@ -175,7 +175,7 @@ namespace Finate.UWP.ViewModels
             // Add transaction to the current weekly expense graph collection
             this.WeeklyExpenses
                 .First(t => t.Index == transaction.Date.GetDayOfWeekIndex(true))
-                .Amount += transaction.Amount;
+                .Amount += Math.Abs(transaction.Amount);
 
             // Invoke event
             this.OnQuickTransactionProcessed?.Invoke(this, null);

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
-using Finate.UWP.Annotations;
+using Finate.UWP.Properties;
 using Finate.UWP.ViewModels;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
@@ -70,7 +70,7 @@ namespace Finate.UWP.Views
 
         private void SpendingsChartOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            this.SpendingsChartAddTodayIndicator();
+            //this.SpendingsChartAddTodayIndicator();
         }
 
         private void SpendingsChartAddTodayIndicator()

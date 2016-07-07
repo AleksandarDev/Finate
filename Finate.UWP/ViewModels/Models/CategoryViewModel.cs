@@ -1,6 +1,8 @@
-﻿using Windows.UI.Xaml.Media;
-using Finate.Models;
+﻿using Windows.UI;
+using Windows.UI.Xaml.Media;
 using Prism.Windows.Mvvm;
+using Finate.UWP.Extensions;
+using Finate.UWP.Models;
 
 namespace Finate.UWP.ViewModels
 {
@@ -18,7 +20,7 @@ namespace Finate.UWP.ViewModels
         {
             this.Id = category.Id;
             this.Name = category.Name;
-            this.Color = new SolidColorBrush(category.Color);
+            this.Color = new SolidColorBrush(category.Color.GetColorFromHexString());
         }
 
         public Category ToCategory()
@@ -32,14 +34,14 @@ namespace Finate.UWP.ViewModels
             {
                 Id = viewModel.Id,
                 Name = viewModel.Name,
-                Color = ((SolidColorBrush)viewModel.Color).Color
+                Color = ((SolidColorBrush)viewModel.Color).Color.ToString()
             };
         }
 
         /// <summary>
         /// Gets the category identifier.
         /// </summary>
-        public string Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Gets or sets the category name.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Finate.Models
+namespace Finate.UWP.Models
 {
     /// <summary>
     /// The financial account.
@@ -11,7 +11,7 @@ namespace Finate.Models
         /// <summary>
         /// Gets or sets the account identifier.
         /// </summary>
-        public string Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets the account name.
@@ -30,7 +30,7 @@ namespace Finate.Models
         public bool Equals(Account other)
         {
             // Not equal if identifier is not set
-            if (other.Id == null || this.Id == null)
+            if (other.Id == 0 || this.Id == 0)
                 return false;
 
             // Equal if identifiers match
@@ -65,7 +65,7 @@ namespace Finate.Models
             Justification = "Identifier shouldn't change once assigned through instance lifetine.")]
         public override int GetHashCode()
         {
-            if (this.Id == null)
+            if (this.Id == 0)
                 return 0;
 
             return this.Id.GetHashCode();

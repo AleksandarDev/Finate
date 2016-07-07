@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Windows.UI.Xaml.Media;
-using Finate.Data;
+using Finate.UWP.DAL;
+using Finate.UWP.Models;
 using Prism.Windows.Mvvm;
-using Finate.Models;
 using Microsoft.Practices.Unity;
 using Prism.Unity.Windows;
 
@@ -62,7 +62,7 @@ namespace Finate.UWP.ViewModels
         /// <summary>
         /// Gets the transaction identifier.
         /// </summary>
-        public string Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Gets or sets the transaction view model.

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Finate.Models;
+using Finate.UWP.Models;
 
-namespace Finate.Data
+namespace Finate.UWP.DAL
 {
     /// <summary>
     /// The <see cref="Transaction"/> repository.

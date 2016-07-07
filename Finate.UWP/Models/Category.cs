@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Windows.UI;
 
-namespace Finate.Models
+namespace Finate.UWP.Models
 {
     /// <summary>
     /// The category.
@@ -12,7 +11,7 @@ namespace Finate.Models
         /// <summary>
         /// Gets or sets the category identifier.
         /// </summary>
-        public string Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets the category name.
@@ -22,12 +21,17 @@ namespace Finate.Models
         /// <summary>
         /// Gets or sets the category color.
         /// </summary>
-        public Color Color { get; set; }
+        public string Color { get; set; }
+
+        /// <summary>
+        /// Gets or sets the group.
+        /// </summary>
+        public Group Group { get; set; }
 
         /// <summary>
         /// Gets or sets the category group identifier.
         /// </summary>
-        public string GroupId { get; set; }
+        public long GroupId { get; set; }
 
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace Finate.Models
         public bool Equals(Category other)
         {
             // Not equal if identifier is not set
-            if (other.Id == null || this.Id == null)
+            if (other.Id == 0 || this.Id == 0)
                 return false;
 
             // Equal if identifiers match
@@ -76,7 +80,7 @@ namespace Finate.Models
             Justification = "Identifier shouldn't change once assigned through instance lifetine.")]
         public override int GetHashCode()
         {
-            if (this.Id == null)
+            if (this.Id == 0)
                 return 0;
 
             return this.Id.GetHashCode();

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Finate.Models;
+using Finate.UWP.Models;
 
-namespace Finate.Data
+namespace Finate.UWP.DAL
 {
     /// <summary>
     /// The <see cref="Transaction"/> repository.
@@ -31,19 +32,15 @@ namespace Finate.Data
         /// <returns>Returns <c>True</c> if transaction was successfully added to the repository; <c>False</c> otherwise.</returns>
         public async Task<bool> AddAsync(Transaction transaction)
         {
-            // Validate transaction
-            if (transaction == null ||
-                transaction.Id != null ||
-                this.context.Transactions.Contains(transaction))
-                return false;
-
-            // Assign identifier to the transactions
-            transaction.Id = Guid.NewGuid().ToString();
+            // Assign default account
+            if (transaction.Account == null || transaction.AccountId == 0)
+                transaction.AccountId = this.context.Accounts.First().Id;
 
             // Add to context
             this.context.Transactions.Add(transaction);
 
-            return await this.TrySaveContextAsync();
+            // Save changes
+            return await this.context.TrySaveContextAsync();
         }
 
         /// <summary>
@@ -54,31 +51,14 @@ namespace Finate.Data
         public async Task<bool> RemoveAsync(Transaction transaction)
         {
             // Validate transaction
-            if (transaction?.Id == null)
+            if (transaction == null || transaction.Id == 0)
                 return false;
 
             // Try to remove from context
-            if (!this.context.Transactions.Remove(transaction))
-                return false;
+            this.context.Transactions.Remove(transaction);
 
-            return await this.TrySaveContextAsync();
-        }
-
-        /// <summary>
-        /// Saves the context.
-        /// </summary>
-        /// <returns>Returns <c>True</c> if context was saved successfully; <c>False</c> otherwise.</returns>
-        protected async Task<bool> TrySaveContextAsync()
-        {
-            try
-            {
-                await this.context.SaveContextAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            // Save changes
+            return await this.context.TrySaveContextAsync();
         }
     }
 }

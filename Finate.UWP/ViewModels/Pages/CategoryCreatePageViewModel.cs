@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
-using Finate.Data;
-using Finate.Models;
-using Finate.UWP.Annotations;
+using Finate.UWP.DAL;
+using Finate.UWP.Models;
+using Finate.UWP.Properties;
 using Prism.Commands;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
@@ -66,12 +66,11 @@ namespace Finate.UWP.ViewModels
             // Create new category
             this.context.Categories.Add(new Category
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = this.name,
-                Color = solidColorBrush.Color,
-                GroupId = this.context.Groups.FirstOrDefault()?.Id
+                Color = solidColorBrush.Color.ToString(),
+                GroupId = this.context.Groups.FirstOrDefault().Id
             });
-            await this.context.SaveContextAsync();
+            await this.context.SaveChangesAsync();
 
             // Navigate away from this page
             // Navigate back if possible; to categories page if can't go back

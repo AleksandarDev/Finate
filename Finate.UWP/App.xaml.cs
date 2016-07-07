@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Finate.Data;
-using Finate.Models;
+using Finate.UWP.DAL;
+using Finate.UWP.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.Unity;
 using Mindscape.Raygun4Net;
+using Serilog;
 
 namespace Finate.UWP
 {
@@ -29,6 +32,10 @@ namespace Finate.UWP
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
 
             this.InitializeComponent();
+
+            // Migrate database
+            using (var db = new LocalDbContext())
+                db.Database.Migrate();
         }
 
         protected override UIElement CreateShell(Frame rootFrame)
@@ -40,19 +47,25 @@ namespace Finate.UWP
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            this.Container.RegisterInstance(this.SetupLogging());
+            this.Container.RegisterType<ILocalDbContext, LocalDbContext>(new PerResolveLifetimeManager());
             this.Container.RegisterType<ITransactionsRepository, TransactionsRepository>(new PerResolveLifetimeManager());
 
             //Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             return base.OnInitializeAsync(args);
         }
 
+        private ILogger SetupLogging()
+        {
+            return new LoggerConfiguration()
+                .CreateLogger();
+        }
+
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             // Initialize database
-            var context = await LocalDbContext.LoadAsync();
-            //var context = (ILocalDbContext)new LocalDbContext();
-            if (!context.IsSeeded)
-                await this.SeedContextAsync(context);
+            var context = new LocalDbContext();
+            await this.SeedContextAsync(context);
             this.Container.RegisterInstance(context);
 
             this.NavigationService.Navigate(PageTokens.HomePage, null);
@@ -61,30 +74,44 @@ namespace Finate.UWP
 
         private async Task SeedContextAsync(ILocalDbContext context)
         {
-            context.IsSeeded = true;
+            // Prepare accounts
+            if (!context.Accounts.Any())
+            {
+                var account = new Account
+                {
+                    Name = "Account"
+                };
+
+                context.Accounts.Add(account);
+                await context.SaveChangesAsync();
+            }
 
             // Prepare groups
-            var shoppingCategory = new Group
+            if (!context.Groups.Any())
             {
-                Name = "Shopping",
-                Id = Guid.NewGuid().ToString()
-            };
+                var shoppingCategory = new Group
+                {
+                    Name = "Shopping",
+                    AccountId = context.Accounts.First().Id
+                };
 
-            context.Groups.Add(shoppingCategory);
+                context.Groups.Add(shoppingCategory);
+                await context.SaveChangesAsync();
+            }
 
             // Prepare categories
-            var foodCategory = new Category
+            if (!context.Categories.Any())
             {
-                Color = Colors.Purple,
-                Name = "Food",
-                Id = Guid.NewGuid().ToString(),
-                GroupId = shoppingCategory.Id
-            };
+                var foodCategory = new Category
+                {
+                    Color = Colors.Purple.ToString(),
+                    Name = "Food",
+                    GroupId = context.Groups.First().Id
+                };
 
-            context.Categories.Add(foodCategory);
-
-            // Save context changes
-            await context.SaveContextAsync();
+                context.Categories.Add(foodCategory);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

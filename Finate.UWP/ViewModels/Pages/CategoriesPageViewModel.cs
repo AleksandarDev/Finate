@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Finate.Data;
-using Finate.UWP.Annotations;
+using Finate.UWP.DAL;
+using Finate.UWP.Properties;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using DelegateCommand = Prism.Commands.DelegateCommand;

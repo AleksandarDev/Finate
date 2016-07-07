@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Finate.Models;
+using Finate.UWP.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Finate.Data
+namespace Finate.UWP.DAL
 {
     /// <summary>
     /// The local database context.
@@ -10,39 +11,38 @@ namespace Finate.Data
     public interface ILocalDbContext
     {
         /// <summary>
-        /// Gets or sets the value that detemines whether this database was seeded already.
-        /// </summary>
-        bool IsSeeded { get; set; }
-
-        /// <summary>
         /// Gets or sets the accounts database set.
         /// </summary>
-        List<Account> Accounts { get; set; }
+        DbSet<Account> Accounts { get; set; }
 
         /// <summary>
         /// Gets or sets the categories database set.
         /// </summary>
-        List<Category> Categories { get; set; }
+        DbSet<Category> Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the groups database set.
         /// </summary>
-        List<Group> Groups { get; set; }
+        DbSet<Group> Groups { get; set; }
 
         /// <summary>
         /// Gets or sets the monthly budgets database set.
         /// </summary>
-        List<MonthlyBudget> MonthlyBudgets { get; set; }
+        DbSet<MonthlyBudget> MonthlyBudgets { get; set; }
 
         /// <summary>
         /// Gets or sets the transactions database set.
         /// </summary>
-        List<Transaction> Transactions { get; set; }
+        DbSet<Transaction> Transactions { get; set; }
 
-
-            /// <summary>
-        /// Saves the context.
+        /// <summary>
+        /// Saves the context changes.
         /// </summary>
-        Task SaveContextAsync();
+        int SaveChanges();
+
+        /// <summary>
+        /// Saves the context changes.
+        /// </summary>
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

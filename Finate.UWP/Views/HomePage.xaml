@@ -164,9 +164,9 @@
                 </charts:SfChart.PrimaryAxis>
                 <charts:SplineSeries AnimationDuration="0:0:1"
                                      BorderThickness="0"
-                                     EnableAnimation="True"
                                      ItemsSource="{Binding PreviousWeeklyExpenses}"
                                      Palette="Custom"
+                                     EnableAnimation="True"
                                      XBindingPath="Index"
                                      YBindingPath="Amount">
                     <charts:SplineSeries.ColorModel>
@@ -179,10 +179,10 @@
                 </charts:SplineSeries>
                 <charts:SplineSeries AnimationDuration="0:0:1"
                                      BorderThickness="0"
-                                     EnableAnimation="True"
                                      ItemsSource="{Binding WeeklyExpenses}"
                                      ListenPropertyChange="True"
                                      Palette="Custom"
+                                     EnableAnimation="True"
                                      XBindingPath="Index"
                                      YBindingPath="Amount">
                     <charts:SplineSeries.ColorModel>

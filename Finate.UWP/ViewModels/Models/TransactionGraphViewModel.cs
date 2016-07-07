@@ -1,6 +1,6 @@
 using System;
-using Finate.Models;
 using Finate.UWP.Extensions;
+using Finate.UWP.Models;
 using Prism.Windows.Mvvm;
 
 namespace Finate.UWP.ViewModels

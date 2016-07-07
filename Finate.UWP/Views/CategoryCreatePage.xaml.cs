@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
-using Finate.UWP.Annotations;
+using Finate.UWP.Properties;
 using Finate.UWP.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
