@@ -1,4 +1,3 @@
-using System;
 using Finate.UWP.Extensions;
 using Finate.UWP.Models;
 using Prism.Windows.Mvvm;

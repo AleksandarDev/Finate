@@ -1,5 +1,4 @@
-﻿using Windows.UI;
-using Windows.UI.Xaml.Media;
+﻿using Windows.UI.Xaml.Media;
 using Prism.Windows.Mvvm;
 using Finate.UWP.Extensions;
 using Finate.UWP.Models;
