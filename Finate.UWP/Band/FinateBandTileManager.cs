@@ -7,39 +7,66 @@ using Serilog;
 
 namespace Finate.UWP.Band
 {
-    public class FinateBandTileManager : BandTileManager, IFinateBandTileManager
+    /// <summary>
+    /// The Finate band tile manager implementation.
+    /// </summary>
+    /// <seealso cref="Finate.UWP.Band.BandTileManagerBase" />
+    /// <seealso cref="Finate.UWP.Band.IFinateBandTileManager" />
+    public class FinateBandTileManager : BandTileManagerBase, IFinateBandTileManager
     {
         private readonly ILogger logger;
-        private readonly IBandConnections bandConnections;
+        private readonly IBandConnectionsManager bandConnectionsManager;
         private readonly IBandTileManager bandTileManager;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FinateBandTileManager"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="bandConnectionsManager">The band connections manager.</param>
+        /// <param name="bandTileManager">The band tile manager.</param>
+        /// <exception cref="ArgumentNullException">
+        /// logger
+        /// or
+        /// bandConnectionsManager
+        /// or
+        /// bandTileManager
+        /// </exception>
         public FinateBandTileManager(
             [NotNull] ILogger logger,
-            [NotNull] IBandConnections bandConnections,
+            [NotNull] IBandConnectionsManager bandConnectionsManager,
             [NotNull] IBandTileManager bandTileManager) 
-            : base(logger, bandConnections)
+            : base(logger, bandConnectionsManager)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
-            if (bandConnections == null) throw new ArgumentNullException(nameof(bandConnections));
+            if (bandConnectionsManager == null) throw new ArgumentNullException(nameof(bandConnectionsManager));
             if (bandTileManager == null) throw new ArgumentNullException(nameof(bandTileManager));
 
             this.logger = logger;
-            this.bandConnections = bandConnections;
+            this.bandConnectionsManager = bandConnectionsManager;
             this.bandTileManager = bandTileManager;
         }
 
 
+        /// <summary>
+        /// Determines whether budget tile is installed.
+        /// </summary>
         public async Task<bool> IsBudgetTileInstalledAsync()
         {
             return await this.IsTileInstalledAsync(BudgetBandTile.TileGuid);
         }
 
+        /// <summary>
+        /// Determines whether transactions tile is installed.
+        /// </summary>
         public async Task<bool> IsTransactionsTileInstalledAsync()
         {
             return await this.IsTileInstalledAsync(TransactionsBandTile.TileGuid);
         }
 
+        /// <summary>
+        /// Creates the budget tile.
+        /// </summary>
         public async Task CreateBudgetTileAsync()
         {
             try
@@ -52,6 +79,9 @@ namespace Finate.UWP.Band
             }
         }
 
+        /// <summary>
+        /// Creates the transactions tile.
+        /// </summary>
         public async Task CreateTransactionsTileAsync()
         {
             try

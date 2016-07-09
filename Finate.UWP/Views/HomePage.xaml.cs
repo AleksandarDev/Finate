@@ -29,6 +29,9 @@ namespace Finate.UWP.Views
         private bool isAddTransactionCircle;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomePage"/> class.
+        /// </summary>
         public HomePage()
         {
             this.InitializeComponent();
@@ -39,6 +42,11 @@ namespace Finate.UWP.Views
             this.SpendingsChart.Loaded += this.SpendingsChartOnLoaded;
         }
 
+        /// <summary>
+        /// Invoked when this page is about to be displayed in a Frame.
+        /// </summary>
+        /// <param name="navigationEventArgs">Event data that describes how this page was reached. The Parameter
+        /// property provides the group to be displayed.</param>
         protected override void OnNavigatedTo(NavigationEventArgs navigationEventArgs)
         {
             this.QuickTransactionView.Visibility = Visibility.Collapsed;
@@ -228,6 +236,12 @@ namespace Finate.UWP.Views
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Finds the parent.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reference">The reference.</param>
+        /// <returns>Returns nearest parent of specified type.</returns>
         public static T FindParent<T>(FrameworkElement reference)
             where T : FrameworkElement
         {

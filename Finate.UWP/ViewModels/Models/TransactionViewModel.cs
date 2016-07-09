@@ -14,13 +14,21 @@ namespace Finate.UWP.ViewModels
     /// </summary>
     public class TransactionViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The income brush key.
+        /// </summary>
         public string IncomeBrushKey = "";
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionViewModel"/> class.
+        /// </summary>
+        /// <param name="transaction">The transaction.</param>
         public TransactionViewModel(Transaction transaction)
         {
             this.FromTransaction(transaction);
         }
+
 
         private void FromTransaction(Transaction transaction)
         {
@@ -41,11 +49,19 @@ namespace Finate.UWP.ViewModels
             this.Category = new CategoryViewModel(category);
         }
 
+        /// <summary>
+        /// Converts the view model to model.
+        /// </summary>
+        /// <returns>Returns new populated instance of <see cref="Transaction"/>.</returns>
         public Transaction ToTransaction()
         {
             return ToTransaction(this);
         }
 
+        /// <summary>
+        /// Converts the view model to model.
+        /// </summary>
+        /// <returns>Returns new populated instance of <see cref="Transaction"/>.</returns>
         public static Transaction ToTransaction(TransactionViewModel viewModel)
         {
             return new Transaction

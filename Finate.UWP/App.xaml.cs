@@ -41,6 +41,14 @@ namespace Finate.UWP
                 db.Database.Migrate();
         }
 
+
+        /// <summary>
+        /// Creates the shell of the app.
+        /// </summary>
+        /// <param name="rootFrame"></param>
+        /// <returns>
+        /// The shell of the app.
+        /// </returns>
         protected override UIElement CreateShell(Frame rootFrame)
         {
             var shell = this.Container.Resolve<AppShell>();
@@ -48,18 +56,26 @@ namespace Finate.UWP
             return shell;
         }
 
+        /// <summary>
+        /// Override this method with the initialization logic of your application. Here you can initialize services, repositories, and so on.
+        /// </summary>
+        /// <param name="args">The <see cref="T:Windows.ApplicationModel.Activation.IActivatedEventArgs" /> instance containing the event data.</param>
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             this.Container.RegisterInstance(this.SetupLogging());
             this.Container.RegisterType<ILocalDbContext, LocalDbContext>(new PerResolveLifetimeManager());
             this.Container.RegisterType<ITransactionsRepository, TransactionsRepository>(new PerResolveLifetimeManager());
-            this.Container.RegisterType<IBandConnections, BandConnections>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IBandConnectionsManager, BandConnectionsManager>(new ContainerControlledLifetimeManager());
             this.Container.RegisterType<IFinateBandTileManager, FinateBandTileManager>(new PerResolveLifetimeManager());
 
             //Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             return base.OnInitializeAsync(args);
         }
 
+        /// <summary>
+        /// Setups the logging.
+        /// </summary>
+        /// <returns>Returns a new instance of logger.</returns>
         private ILogger SetupLogging()
         {
             return new LoggerConfiguration()
@@ -67,6 +83,10 @@ namespace Finate.UWP
                 .CreateLogger();
         }
 
+        /// <summary>
+        /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
+        /// </summary>
+        /// <param name="args">The <see cref="T:Windows.ApplicationModel.Activation.LaunchActivatedEventArgs" /> instance containing the event data.</param>
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             // Initialize database
@@ -78,6 +98,10 @@ namespace Finate.UWP
             await Task.FromResult(true);
         }
 
+        /// <summary>
+        /// Seeds the context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private async Task SeedContextAsync(ILocalDbContext context)
         {
             // Prepare accounts

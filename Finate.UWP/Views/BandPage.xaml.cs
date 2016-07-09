@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Finate.UWP.Annotations;
 using Finate.UWP.ViewModels;
 
@@ -26,6 +13,9 @@ namespace Finate.UWP.Views
     /// </summary>
     public sealed partial class BandPage : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BandPage"/> class.
+        /// </summary>
         public BandPage()
         {
             this.InitializeComponent();

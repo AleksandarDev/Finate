@@ -13,29 +13,48 @@ using Serilog;
 
 namespace Finate.UWP.Band
 {
-    public abstract class BandTileManager
+    /// <summary>
+    /// The generic band tile manager.
+    /// </summary>
+    public abstract class BandTileManagerBase
     {
         private readonly ILogger logger;
-        private readonly IBandConnections bandConnections;
+        private readonly IBandConnectionsManager bandConnectionsManager;
 
 
-        protected BandTileManager(
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BandTileManagerBase"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="bandConnectionsManager">The band connections manager.</param>
+        /// <exception cref="ArgumentNullException">
+        /// logger
+        /// or
+        /// bandConnectionsManager
+        /// </exception>
+        protected BandTileManagerBase(
             [NotNull] ILogger logger,
-            [NotNull] IBandConnections bandConnections)
+            [NotNull] IBandConnectionsManager bandConnectionsManager)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
-            if (bandConnections == null) throw new ArgumentNullException(nameof(bandConnections));
+            if (bandConnectionsManager == null) throw new ArgumentNullException(nameof(bandConnectionsManager));
 
             this.logger = logger;
-            this.bandConnections = bandConnections;
+            this.bandConnectionsManager = bandConnectionsManager;
         }
 
-        protected async Task<bool> IsTileInstalledAsync(Guid tileId)
+
+        /// <summary>
+        /// Determines whether the specified tile is installed.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <returns>Returns <c>True</c> if tile with specified identifier is installed; <c>False</c> otherwise.</returns>
+        protected virtual async Task<bool> IsTileInstalledAsync(Guid tileId)
         {
             try
             {
                 var isOwned = await Task.Run(() =>
-                    this.bandConnections.BandClient.TileManager.TileInstalledAndOwned(
+                    this.bandConnectionsManager.BandClient.TileManager.TileInstalledAndOwned(
                         ref tileId,
                         CancellationToken.None));
 
@@ -48,12 +67,25 @@ namespace Finate.UWP.Band
             }
         }
 
-        protected async Task<bool> IsTileInstalledAsync(string tileGuid)
+        /// <summary>
+        /// Determines whether the specified tile is installed.
+        /// </summary>
+        /// <param name="tileGuid">The tile unique identifier.</param>
+        /// <returns>Returns <c>True</c> if tile with specified identifier is installed; <c>False</c> otherwise.</returns>
+        /// <exception cref="ArgumentException">Value cannot be null or whitespace.</exception>
+        protected async Task<bool> IsTileInstalledAsync([NotNull] string tileGuid)
         {
+            if (string.IsNullOrWhiteSpace(tileGuid))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(tileGuid));
+
             return await this.IsTileInstalledAsync(new Guid(tileGuid));
         }
 
-        protected async Task CreateCustomBandTileAsync(ICustomBandTile tileDefinition)
+        /// <summary>
+        /// Creates the custom band tile.
+        /// </summary>
+        /// <param name="tileDefinition">The tile definition.</param>
+        protected virtual async Task CreateCustomBandTileAsync(ICustomBandTile tileDefinition)
         {
             try
             {
@@ -82,13 +114,13 @@ namespace Finate.UWP.Band
 
                 // Remove existing tile
                 if (await this.IsTileInstalledAsync(tileDefinition.Guid))
-                    await this.bandConnections.BandClient.TileManager.RemoveTileAsync(tileDefinition.Guid);
+                    await this.bandConnectionsManager.BandClient.TileManager.RemoveTileAsync(tileDefinition.Guid);
 
                 // Add tile 
-                await this.bandConnections.BandClient.TileManager.AddTileAsync(tile);
+                await this.bandConnectionsManager.BandClient.TileManager.AddTileAsync(tile);
 
                 // Populate with default data
-                await this.bandConnections.BandClient.TileManager.SetPagesAsync(
+                await this.bandConnectionsManager.BandClient.TileManager.SetPagesAsync(
                     tileDefinition.Guid,
                     tileDefinition.Layouts.Select(layoutDefinition => new PageData(
                         layoutDefinition.Key, 
@@ -101,6 +133,11 @@ namespace Finate.UWP.Band
             }
         }
 
+        /// <summary>
+        /// Loads the icon.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>Returns the <see cref="BandIcon"/> for image on specified path.</returns>
         protected static async Task<BandIcon> LoadIconAsync(string path)
         {
             var imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));

@@ -10,10 +10,15 @@ namespace Finate.UWP.ViewModels
     /// </summary>
     public class CategoryViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryViewModel"/> class.
+        /// </summary>
+        /// <param name="category">The category.</param>
         public CategoryViewModel(Category category)
         {
             this.FromCategory(category);
         }
+
 
         private void FromCategory(Category category)
         {
@@ -22,11 +27,19 @@ namespace Finate.UWP.ViewModels
             this.Color = new SolidColorBrush(category.Color.GetColorFromHexString());
         }
 
+        /// <summary>
+        /// Converts the view model to model.
+        /// </summary>
+        /// <returns>Returns new populated instance of <see cref="Category"/>.</returns>
         public Category ToCategory()
         {
             return ToCategory(this);
         }
 
+        /// <summary>
+        /// Converts the view model to model.
+        /// </summary>
+        /// <returns>Returns new populated instance of <see cref="Category"/>.</returns>
         public static Category ToCategory(CategoryViewModel viewModel)
         {
             return new Category

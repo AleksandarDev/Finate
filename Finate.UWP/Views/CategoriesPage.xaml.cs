@@ -11,6 +11,9 @@ namespace Finate.UWP.Views
     /// </summary>
     public sealed partial class CategoriesPage : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoriesPage"/> class.
+        /// </summary>
         public CategoriesPage()
         {
             // Initialize the view

@@ -11,6 +11,9 @@ namespace Finate.UWP.Views
     /// </summary>
     public sealed partial class BudgetPage : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BudgetPage"/> class.
+        /// </summary>
         public BudgetPage()
         {
             this.InitializeComponent();

@@ -21,9 +21,22 @@ namespace Finate.UWP.ViewModels
         private readonly ILocalDbContext context;
         private QuickTransactionViewModel quickTransaction;
 
+        /// <summary>
+        /// Occurs when quick transaction was processed.
+        /// </summary>
         public event EventHandler OnQuickTransactionProcessed;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomePageViewModel"/> class.
+        /// </summary>
+        /// <param name="transactionsRepository">The transactions repository.</param>
+        /// <param name="context">The context.</param>
+        /// <exception cref="ArgumentNullException">
+        /// transactionsRepository
+        /// or
+        /// context
+        /// </exception>
         public HomePageViewModel(
             [NotNull] ITransactionsRepository transactionsRepository,
             [NotNull] ILocalDbContext context)

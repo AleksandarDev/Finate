@@ -7,10 +7,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Finate.UWP.Migrations
 {
+    /// <summary>
+    /// Initial migration.
+    /// </summary>
+    /// <seealso cref="Microsoft.EntityFrameworkCore.Migrations.Migration" />
     [DbContext(typeof(LocalDbContext))]
     [Migration("20160707220642_Initial")]
     partial class Initial
     {
+        /// <summary>
+        /// Builds the target model.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder

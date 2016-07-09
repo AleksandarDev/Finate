@@ -7,7 +7,11 @@ using Serilog;
 
 namespace Finate.UWP.Band
 {
-    public sealed class BandConnections : IBandConnections
+    /// <summary>
+    /// The Microsoft Band connections manager.
+    /// </summary>
+    /// <seealso cref="IBandConnectionsManager" />
+    public sealed class BandConnectionsManager : IBandConnectionsManager
     {
         private readonly ILogger logger;
 
@@ -15,7 +19,12 @@ namespace Finate.UWP.Band
         private IBandClient bandClient;
 
 
-        public BandConnections([NotNull] ILogger logger)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BandConnectionsManager"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <exception cref="ArgumentNullException">logger</exception>
+        public BandConnectionsManager([NotNull] ILogger logger)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
@@ -23,12 +32,18 @@ namespace Finate.UWP.Band
         }
 
 
+        /// <summary>
+        /// Connects the band.
+        /// </summary>
         public async Task ConnectBandAsync()
         {
             if (this.bandInfo == null)
                 await this.FindBandAsync();
         }
 
+        /// <summary>
+        /// Finds the band.
+        /// </summary>
         private async Task FindBandAsync()
         {
             try
@@ -64,8 +79,20 @@ namespace Finate.UWP.Band
             }
         }
 
+        /// <summary>
+        /// Gets the band information.
+        /// </summary>
+        /// <value>
+        /// The band information.
+        /// </value>
         public IBandInfo BandInfo => this.bandInfo;
 
+        /// <summary>
+        /// Gets the band client.
+        /// </summary>
+        /// <value>
+        /// The band client.
+        /// </value>
         public IBandClient BandClient => this.bandClient;
     }
 }

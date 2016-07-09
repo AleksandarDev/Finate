@@ -7,6 +7,10 @@ using Prism.Windows.Navigation;
 
 namespace Finate.UWP.ViewModels
 {
+    /// <summary>
+    /// The menu view model.
+    /// </summary>
+    /// <seealso cref="Prism.Windows.Mvvm.ViewModelBase" />
     public class MenuViewModel : ViewModelBase
     {
         private readonly INavigationService navigationService;
@@ -17,6 +21,11 @@ namespace Finate.UWP.ViewModels
         private bool canNavigateToBandPage;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuViewModel"/> class.
+        /// </summary>
+        /// <param name="navigationService">The navigation service.</param>
+        /// <exception cref="ArgumentNullException">navigationService</exception>
         public MenuViewModel([NotNull] INavigationService navigationService)
         {
             if (navigationService == null) throw new ArgumentNullException(nameof(navigationService));

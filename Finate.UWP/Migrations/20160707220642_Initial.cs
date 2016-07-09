@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Finate.UWP.Migrations
 {
+    /// <summary>
+    /// The initial migration.
+    /// </summary>
+    /// <seealso cref="Microsoft.EntityFrameworkCore.Migrations.Migration" />
     public partial class Initial : Migration
     {
+        /// <summary>
+        /// Migrates the database.
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder.</param>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -139,6 +147,10 @@ namespace Finate.UWP.Migrations
                 column: "CategoryId");
         }
 
+        /// <summary>
+        /// Migrates the database.
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder.</param>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

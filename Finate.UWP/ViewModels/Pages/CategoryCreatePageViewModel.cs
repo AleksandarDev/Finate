@@ -13,6 +13,10 @@ using Prism.Windows.Navigation;
 
 namespace Finate.UWP.ViewModels
 {
+    /// <summary>
+    /// The category create page view model.
+    /// </summary>
+    /// <seealso cref="Prism.Windows.Mvvm.ViewModelBase" />
     public class CategoryCreatePageViewModel : ViewModelBase
     {
         private readonly INavigationService navigationService;
@@ -21,6 +25,16 @@ namespace Finate.UWP.ViewModels
         private Brush color;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryCreatePageViewModel"/> class.
+        /// </summary>
+        /// <param name="navigationService">The navigation service.</param>
+        /// <param name="context">The context.</param>
+        /// <exception cref="ArgumentNullException">
+        /// navigationService
+        /// or
+        /// context
+        /// </exception>
         public CategoryCreatePageViewModel(
             [NotNull] INavigationService navigationService,
             [NotNull] ILocalDbContext context)
@@ -78,6 +92,12 @@ namespace Finate.UWP.ViewModels
         }
 
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name
         {
             get { return this.name; }
@@ -88,16 +108,28 @@ namespace Finate.UWP.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the color.
+        /// </summary>
+        /// <value>
+        /// The color.
+        /// </value>
         public Brush Color
         {
             get { return this.color; }
             set { this.SetProperty(ref this.color, value); }
         }
 
+        /// <summary>
+        /// Gets the collection of available colors.
+        /// </summary>
+        /// <value>
+        /// The collection of available colors.
+        /// </value>
         public IEnumerable<Brush> AvailableColor { get; }
 
         /// <summary>
-        /// Gets the create categoy command.
+        /// Gets the create category command.
         /// </summary>
         public ICommand CreateCategoryCommand { get; }
     }
