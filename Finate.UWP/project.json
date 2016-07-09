@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.1",
+    "Microsoft.Band": "1.3.20420",
     "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
     "Microsoft.EntityFrameworkCore.Design.Core": "1.0.0-preview2-final",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",

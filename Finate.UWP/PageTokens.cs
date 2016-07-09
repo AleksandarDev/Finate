@@ -24,5 +24,10 @@
         /// The category create page token.
         /// </summary>
         public const string CategoryCreatePage = "CategoryCreate";
+
+        /// <summary>
+        /// The band page token.
+        /// </summary>
+        public const string BandPage = "Band";
     }
 }

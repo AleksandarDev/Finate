@@ -96,6 +96,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
+    <None Include="Band\Layouts\BudgetOverviewTileLayout.msbtl">
+      <Generator>MSBandLayoutCodeGenerator</Generator>
+      <LastGenOutput>BudgetOverviewTileLayout.cs</LastGenOutput>
+    </None>
+    <None Include="Band\Layouts\TransactionConfirmTileLayout.msbtl">
+      <Generator>MSBandLayoutCodeGenerator</Generator>
+      <LastGenOutput>TransactionConfirmTileLayout.cs</LastGenOutput>
+    </None>
+    <None Include="Band\Layouts\TransactionTileLayout.msbtl">
+      <Generator>MSBandLayoutCodeGenerator</Generator>
+      <LastGenOutput>TransactionTileLayout.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="project.json" />
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
@@ -107,6 +120,30 @@
     </Compile>
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Band\BandConnections.cs" />
+    <Compile Include="Band\BandTileEventsManager.cs" />
+    <Compile Include="Band\BandTileManager.cs" />
+    <Compile Include="Band\Tiles\BudgetBandTile.cs" />
+    <Compile Include="Band\Layouts\BudgetOverviewTileLayout.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BudgetOverviewTileLayout.msbtl</DependentUpon>
+    </Compile>
+    <Compile Include="Band\FinateBandTileManager.cs" />
+    <Compile Include="Band\IBandConnections.cs" />
+    <Compile Include="Band\ICustomBandTile.cs" />
+    <Compile Include="Band\IFinateBandTileManager.cs" />
+    <Compile Include="Band\Layouts\TransactionConfirmTileLayout.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionConfirmTileLayout.msbtl</DependentUpon>
+    </Compile>
+    <Compile Include="Band\Tiles\TransactionsBandTile.cs" />
+    <Compile Include="Band\Layouts\TransactionTileLayout.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionTileLayout.msbtl</DependentUpon>
     </Compile>
     <Compile Include="Controls\QuickTransactionView.xaml.cs">
       <DependentUpon>QuickTransactionView.xaml</DependentUpon>
@@ -121,6 +158,9 @@
     <Compile Include="DAL\TransactionsRepository.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Logging\Sinks\Raygun\LoggerConfigurationRaygunExtensions.cs" />
+    <Compile Include="Logging\Sinks\Raygun\RaygunPropertyFormatter.cs" />
+    <Compile Include="Logging\Sinks\Raygun\RaygunSink.cs" />
     <Compile Include="Migrations\20160707220642_Initial.cs" />
     <Compile Include="Migrations\20160707220642_Initial.designer.cs">
       <DependentUpon>20160707220642_Initial.cs</DependentUpon>
@@ -133,7 +173,9 @@
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="PageTokens.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Pages\BandPageViewModel.cs" />
     <Compile Include="ViewModels\Pages\BudgetPageViewModel.cs" />
     <Compile Include="ViewModels\Pages\CategoriesPageViewModel.cs" />
     <Compile Include="ViewModels\Models\CategoryViewModel.cs" />
@@ -144,6 +186,9 @@
     <Compile Include="ViewModels\Controls\QuickTransactionViewModel.cs" />
     <Compile Include="ViewModels\Models\TransactionGraphViewModel.cs" />
     <Compile Include="ViewModels\Models\TransactionViewModel.cs" />
+    <Compile Include="Views\BandPage.xaml.cs">
+      <DependentUpon>BandPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BudgetPage.xaml.cs">
       <DependentUpon>BudgetPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +212,9 @@
     <None Include="Finate.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BandCategoryIcon.png" />
+    <Content Include="Assets\BandTileIconLarge.png" />
+    <Content Include="Assets\BandTileIconSmall.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -202,6 +250,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\BandPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BudgetPage.xaml">
       <SubType>Designer</SubType>

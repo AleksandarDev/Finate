@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Unity.Windows;
+using Serilog;
 
 namespace Finate.UWP.DAL
 {
@@ -25,7 +25,7 @@ namespace Finate.UWP.DAL
             catch (Exception ex)
             {
                 var logger = PrismUnityApplication.Current.Container.Resolve<ILogger>();
-                logger.LogError(new EventId(0), ex, "Failed to save context changes.");
+                logger.Error(ex, "Failed to save context changes.");
                 return false;
             }
         }

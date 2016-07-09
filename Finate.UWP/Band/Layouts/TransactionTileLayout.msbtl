@@ -1,0 +1,120 @@
+{
+  "$type": "DesignerContents",
+  "DesignerState": {
+    "$type": "DesignerState",
+    "BandLayout": {
+      "$type": "BandLayout",
+      "Version": {
+        "$type": "Version",
+        "Major": 2,
+        "Build": -1,
+        "Revision": -1
+      },
+      "BandTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "TileTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "RootPanel": {
+        "$type": "FlowPanel",
+        "Elements": {
+          "$type": "Elements",
+          "$values": [
+            {
+              "$type": "TextBlock",
+              "AutoWidth": true,
+              "ColorSource": 1,
+              "Color": "R: 255, G: 255, B: 255",
+              "Text": "Amount",
+              "Name": "",
+              "ElementId": 2,
+              "Id": "322ae63c-9758-448b-9e91-6aa4a83635a1",
+              "Width": 32,
+              "Height": 32,
+              "LeftMargin": 12,
+              "TopMargin": 8
+            },
+            {
+              "$type": "TextButton",
+              "PressedColor": "R: 32, G: 32, B: 32",
+              "Text": "5",
+              "Name": "AmountDecimalButton",
+              "ElementId": 3,
+              "Id": "2996e139-fa55-46ff-a549-a7d0112f8400",
+              "Width": 80,
+              "Height": 44,
+              "LeftMargin": 12,
+              "TopMargin": 20,
+              "HorizontalAlignment": 1
+            },
+            {
+              "$type": "Icon",
+              "Color": "R: 255, G: 21, B: 28",
+              "Source": "Assets/BandCategoryIcon.png",
+              "Name": "",
+              "ElementId": 5,
+              "Id": "b014e59c-0148-4d44-86a1-0c90235844c4",
+              "Width": 32,
+              "Height": 32,
+              "LeftMargin": 190,
+              "TopMargin": -38,
+              "HorizontalAlignment": 2,
+              "VerticalAlignment": 2
+            },
+            {
+              "$type": "FilledButton",
+              "BackgroundColor": "R: 53, G: 53, B: 53",
+              "PressedColor": "R: 32, G: 32, B: 32",
+              "Name": "CategoryButton",
+              "ElementId": 4,
+              "Id": "ee28c4ec-79fe-48e5-b732-886617d8d2d3",
+              "Width": 44,
+              "Height": 44,
+              "LeftMargin": 184,
+              "TopMargin": -40,
+              "HorizontalAlignment": 2,
+              "VerticalAlignment": 2
+            },
+            {
+              "$type": "TextButton",
+              "PressedColor": "R: 32, G: 32, B: 32",
+              "Text": "0",
+              "Name": "AmountSingleButton",
+              "ElementId": 6,
+              "Id": "658ba056-b39e-4b97-8b78-33f36978b7df",
+              "Width": 80,
+              "Height": 44,
+              "LeftMargin": 92,
+              "TopMargin": -44
+            }
+          ]
+        },
+        "Name": "",
+        "ElementId": 1,
+        "Id": "77d2c144-487e-4e0a-91ee-820809429536",
+        "Width": 258,
+        "Height": 128
+      }
+    },
+    "SelectedElements": {
+      "$type": "IdList",
+      "$values": [
+        "ee28c4ec-79fe-48e5-b732-886617d8d2d3"
+      ]
+    }
+  },
+  "ZoomPercent": 388.0
+}

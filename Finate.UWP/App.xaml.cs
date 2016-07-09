@@ -4,7 +4,9 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Finate.UWP.Band;
 using Finate.UWP.DAL;
+using Finate.UWP.Logging.Sinks.Raygun;
 using Finate.UWP.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.Unity;
@@ -18,13 +20,15 @@ namespace Finate.UWP
     /// </summary>
     public sealed partial class App
     {
+        private const string RaygunApplicationKey = "UNQ3Nr8h83xioevBJXOM5A==";
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
-            RaygunClient.Attach("UNQ3Nr8h83xioevBJXOM5A==");
+            RaygunClient.Attach(RaygunApplicationKey);
 
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
@@ -49,6 +53,8 @@ namespace Finate.UWP
             this.Container.RegisterInstance(this.SetupLogging());
             this.Container.RegisterType<ILocalDbContext, LocalDbContext>(new PerResolveLifetimeManager());
             this.Container.RegisterType<ITransactionsRepository, TransactionsRepository>(new PerResolveLifetimeManager());
+            this.Container.RegisterType<IBandConnections, BandConnections>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IFinateBandTileManager, FinateBandTileManager>(new PerResolveLifetimeManager());
 
             //Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             return base.OnInitializeAsync(args);
@@ -57,6 +63,7 @@ namespace Finate.UWP
         private ILogger SetupLogging()
         {
             return new LoggerConfiguration()
+                .WriteTo.Raygun(RaygunApplicationKey)
                 .CreateLogger();
         }
 

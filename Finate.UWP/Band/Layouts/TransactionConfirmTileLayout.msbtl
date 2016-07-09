@@ -1,0 +1,80 @@
+{
+  "$type": "DesignerContents",
+  "DesignerState": {
+    "$type": "DesignerState",
+    "BandLayout": {
+      "$type": "BandLayout",
+      "Version": {
+        "$type": "Version",
+        "Major": 2,
+        "Build": -1,
+        "Revision": -1
+      },
+      "BandTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "TileTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "RootPanel": {
+        "$type": "FlowPanel",
+        "Elements": {
+          "$type": "Elements",
+          "$values": [
+            {
+              "$type": "TextBlock",
+              "AutoWidth": true,
+              "ColorSource": 1,
+              "Color": "R: 255, G: 255, B: 255",
+              "Text": "Transaction",
+              "Name": "",
+              "ElementId": 2,
+              "Id": "9e7aba1f-59de-41fa-a02a-8daceb485f5b",
+              "Width": 32,
+              "Height": 32,
+              "LeftMargin": 12,
+              "TopMargin": 8
+            },
+            {
+              "$type": "WrappedTextBlock",
+              "AutoHeight": true,
+              "Color": "R: 255, G: 255, B: 255",
+              "Text": "Press Action button to confirm transaction",
+              "Name": "",
+              "ElementId": 3,
+              "Id": "27ae6572-2f91-4f38-80b8-36222b0943d6",
+              "Width": 246,
+              "Height": 32,
+              "LeftMargin": 12,
+              "TopMargin": 8
+            }
+          ]
+        },
+        "Name": "",
+        "ElementId": 1,
+        "Id": "b64e9ce1-e2d0-493a-835e-df03fe9ce8dd",
+        "Width": 258,
+        "Height": 128
+      }
+    },
+    "SelectedElements": {
+      "$type": "IdList",
+      "$values": [
+        "27ae6572-2f91-4f38-80b8-36222b0943d6"
+      ]
+    }
+  },
+  "ZoomPercent": 100.0
+}

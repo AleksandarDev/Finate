@@ -14,6 +14,7 @@ namespace Finate.UWP.ViewModels
         private bool canNavigateToHomePage;
         private bool canNavigateToCategoriesPage;
         private bool canNavigateToBudgetPage;
+        private bool canNavigateToBandPage;
 
 
         public MenuViewModel([NotNull] INavigationService navigationService)
@@ -25,6 +26,7 @@ namespace Finate.UWP.ViewModels
             this.canNavigateToHomePage = false;
             this.canNavigateToCategoriesPage = true;
             this.canNavigateToBudgetPage = true;
+            this.canNavigateToBandPage = true;
 
             // Populate the menu items collection
             this.MenuItems = new ObservableCollection<MenuItemViewModel>
@@ -43,8 +45,37 @@ namespace Finate.UWP.ViewModels
                 {
                     DisplayName = "Budget",
                     Command = new DelegateCommand(this.NavigateToBudgetPage, this.CanNavigateToBudgetPage)
+                },
+                new MenuItemViewModel
+                {
+                    DisplayName = "My Band",
+                    Command = new DelegateCommand(this.NavigateToBandPage, this.CanNavigateToBandPage)
                 }
             };
+        }
+
+        private void NavigateToBandPage()
+        {
+            // Check if request is valid
+            if (!this.CanNavigateToBandPage()) return;
+
+            // Request the navigation;
+            // If navigation was successfull - proceed
+            if (!this.navigationService.Navigate(PageTokens.BandPage, null)) return;
+
+            // Set new navigation states
+            this.canNavigateToHomePage = true;
+            this.canNavigateToCategoriesPage = true;
+            this.canNavigateToBudgetPage = true;
+            this.canNavigateToBandPage = false;
+
+            // Raise the can execute changed event
+            this.RaiseCanExecuteChanged();
+        }
+
+        private bool CanNavigateToBandPage()
+        {
+            return this.canNavigateToBandPage;
         }
 
 
@@ -61,6 +92,7 @@ namespace Finate.UWP.ViewModels
             this.canNavigateToHomePage = false;
             this.canNavigateToCategoriesPage = true;
             this.canNavigateToBudgetPage = true;
+            this.canNavigateToBandPage = true;
 
             // Raise the can execute changed event
             this.RaiseCanExecuteChanged();
@@ -84,7 +116,8 @@ namespace Finate.UWP.ViewModels
             this.canNavigateToHomePage = true;
             this.canNavigateToCategoriesPage = false;
             this.canNavigateToBudgetPage = true;
-            
+            this.canNavigateToBandPage = true;
+
             // Raise the can execute changed event
             this.RaiseCanExecuteChanged();
         }
@@ -107,6 +140,7 @@ namespace Finate.UWP.ViewModels
             this.canNavigateToHomePage = true;
             this.canNavigateToCategoriesPage = true;
             this.canNavigateToBudgetPage = false;
+            this.canNavigateToBandPage = true;
 
             // Raise the can execute changed event
             this.RaiseCanExecuteChanged();

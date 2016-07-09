@@ -1,0 +1,67 @@
+{
+  "$type": "DesignerContents",
+  "DesignerState": {
+    "$type": "DesignerState",
+    "BandLayout": {
+      "$type": "BandLayout",
+      "Version": {
+        "$type": "Version",
+        "Major": 2,
+        "Build": -1,
+        "Revision": -1
+      },
+      "BandTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "TileTheme": {
+        "$type": "Theme",
+        "Base": "R: 51, G: 102, B: 204",
+        "HighContrast": "R: 58, G: 120, B: 221",
+        "Highlight": "R: 58, G: 120, B: 221",
+        "Lowlight": "R: 49, G: 101, B: 186",
+        "Muted": "R: 43, G: 90, B: 165",
+        "SecondaryText": "R: 137, G: 151, B: 171"
+      },
+      "RootPanel": {
+        "$type": "FlowPanel",
+        "Elements": {
+          "$type": "Elements",
+          "$values": [
+            {
+              "$type": "TextBlock",
+              "AutoWidth": true,
+              "ColorSource": 1,
+              "Color": "R: 255, G: 255, B: 255",
+              "Text": "Budget",
+              "Name": "",
+              "ElementId": 2,
+              "Id": "3436496e-2cad-405d-9041-db7100379e2e",
+              "Width": 32,
+              "Height": 32,
+              "LeftMargin": 12,
+              "TopMargin": 8
+            }
+          ]
+        },
+        "Name": "",
+        "ElementId": 1,
+        "Id": "524ae027-cd44-431a-bf62-0ec1e850abd3",
+        "Width": 258,
+        "Height": 128
+      }
+    },
+    "SelectedElements": {
+      "$type": "IdList",
+      "$values": [
+        "524ae027-cd44-431a-bf62-0ec1e850abd3"
+      ]
+    }
+  },
+  "ZoomPercent": 100.0
+}
